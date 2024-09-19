@@ -23,7 +23,6 @@ const getThemeName = (name?: string) => {
 const InnerTheme = ({ children }: PropsWithChildren) => {
   const { theme, resolvedTheme } = useTheme();
   useEffect(() => {
-    console.log("theme", { theme, resolvedTheme });
     if (theme === "system") {
       document.documentElement.dataset.theme = getThemeName(resolvedTheme);
     } else {

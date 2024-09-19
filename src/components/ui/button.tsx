@@ -1,5 +1,6 @@
-import { ComponentPropsWithoutRef, forwardRef } from "react";
+import { ComponentProps, forwardRef, ReactNode } from "react";
 import { cn } from "~/lib/utils";
+import { Slot } from "./slot";
 
 export type ButtonVariant =
   | "neutral"
@@ -52,24 +53,30 @@ export type ButtonProps = {
   variant?: ButtonVariant;
   size?: ButtonSize;
   wide?: ButtonWidthType;
+  asChild?: boolean;
+  children: ReactNode;
 };
 
-// glass	Modifier	Button with a glass effect
 export const Button = forwardRef<
   HTMLButtonElement,
-  ComponentPropsWithoutRef<"button"> & ButtonProps
+  ButtonProps & ComponentProps<"button">
 >((props, ref) => {
+  const { asChild, children, className, ...rest } = props;
+  const Comp = asChild ? Slot : "button";
   return (
-    <button
-      ref={ref}
+    <Comp
+      {...rest}
       className={cn(
         "btn",
         ButtonVariantMap[props.variant ?? "neutral"],
         props.size && ButtonSizeMap[props.size],
-        props.wide && ButtonWidthMap[props.wide]
+        props.wide && ButtonWidthMap[props.wide],
+        className
       )}
-      {...props}
-    />
+      ref={ref}
+    >
+      {children}
+    </Comp>
   );
 });
 
