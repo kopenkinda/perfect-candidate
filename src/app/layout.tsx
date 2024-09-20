@@ -42,7 +42,7 @@ export default async function RootLayout({
             themes={[themeConfig.light, themeConfig.dark]}
           >
             <AppNavigation />
-            <main className="p-4 pt-0">{children}</main>
+            <main className="px-2 pb-4 pt-0">{children}</main>
           </ThemeProvider>
         </body>
       </html>

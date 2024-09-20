@@ -1,4 +1,4 @@
 export const themeConfig = {
   dark: "dim",
-  light: "bumblebee",
+  light: "pastel",
 } as const;

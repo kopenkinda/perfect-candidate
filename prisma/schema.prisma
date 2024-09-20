@@ -29,6 +29,7 @@ model User {
   settings   UserSettings?
   privacy    UserPrivacy?
   experience UserExperience[]
+  languages  UserLanguage[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -125,6 +126,17 @@ model UserExperience {
   endDate     DateTime? @map("end_date")
   current     Boolean   @default(false)
   visible     Boolean   @default(true)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+}
+
+model UserLanguage {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

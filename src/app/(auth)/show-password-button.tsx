@@ -1,5 +1,5 @@
-import { EyeIcon, EyeOffIcon } from "lucide-react";
 import * as React from "react";
+import { Icon } from "~/components/ui/app-icon";
 import { Button } from "~/components/ui/button";
 
 export const ShowPasswordButton = ({
@@ -17,11 +17,7 @@ export const ShowPasswordButton = ({
       type="button"
       onClick={() => control((showing) => !showing)}
     >
-      {showing ? (
-        <EyeOffIcon className="w-4 h-4" />
-      ) : (
-        <EyeIcon className="w-4 h-4" />
-      )}
+      {showing ? <Icon name="EyeOff" /> : <Icon name="Eye" />}
     </Button>
   );
 };

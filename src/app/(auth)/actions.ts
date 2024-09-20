@@ -1,7 +1,7 @@
 "use server";
 
 import bcrypt from "bcryptjs";
-import { db, getUserByEmail } from "~/lib/db";
+import { db } from "~/lib/db";
 import {
   SignInFormSchema,
   SignInFormValues,
@@ -11,6 +11,7 @@ import {
 import { naSignIn } from "~/auth";
 import { routes } from "~/auth/routes";
 import { AuthError } from "next-auth";
+import { getUserByEmail } from "~/lib/db/user";
 
 export type AuthActionResult =
   | {

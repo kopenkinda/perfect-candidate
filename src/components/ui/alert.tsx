@@ -1,12 +1,7 @@
 import { Slot } from "@radix-ui/react-slot";
-import {
-  AlertTriangleIcon,
-  CheckCircleIcon,
-  InfoIcon,
-  XCircleIcon,
-} from "lucide-react";
 import * as React from "react";
 import { cn } from "~/lib/utils";
+import { Icon } from "./app-icon";
 
 export type AlertVariant = "info" | "success" | "warning" | "error";
 
@@ -31,11 +26,11 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
         {...props}
         ref={ref}
       >
-        {variant === undefined && <InfoIcon className="w-4 h-4" />}
-        {variant === "info" && <InfoIcon className="w-4 h-4" />}
-        {variant === "success" && <CheckCircleIcon className="w-4 h-4" />}
-        {variant === "warning" && <AlertTriangleIcon className="w-4 h-4" />}
-        {variant === "error" && <XCircleIcon className="w-4 h-4" />}
+        {variant === undefined && <Icon name="Info" />}
+        {variant === "info" && <Icon name="Info" />}
+        {variant === "success" && <Icon name="CircleCheck" />}
+        {variant === "warning" && <Icon name="TriangleAlert" />}
+        {variant === "error" && <Icon name="CircleX" />}
         {children}
       </Comp>
     );

@@ -5,7 +5,7 @@ import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import Linkedin from "next-auth/providers/linkedin";
 import { SignInFormSchema } from "~/app/(auth)/schemas";
-import { getUserByEmail } from "~/lib/db";
+import { getUserByEmail } from "~/lib/db/user";
 
 declare module "next-auth" {
   interface Session extends DefaultSession {

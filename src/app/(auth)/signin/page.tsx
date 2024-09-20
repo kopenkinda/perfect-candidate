@@ -1,18 +1,18 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AtSignIcon, LockIcon } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { routes } from "~/auth/routes";
+import { Alert } from "~/components/ui/alert";
+import { Icon } from "~/components/ui/app-icon";
 import { Button } from "~/components/ui/button";
 import { FormControl } from "~/components/ui/form-control";
 import { Input } from "~/components/ui/input";
+import { type AuthActionResult, login } from "../actions";
 import { SignInFormSchema, SignInFormValues } from "../schemas";
 import { ShowPasswordButton } from "../show-password-button";
-import { type AuthActionResult, login } from "../actions";
-import { Alert } from "~/components/ui/alert";
-import Link from "next/link";
-import { routes } from "~/auth/routes";
 
 export default function SignInPage({
   searchParams: { callbackUrl },
@@ -23,7 +23,7 @@ export default function SignInPage({
   const [result, setResult] = useState<AuthActionResult | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const form = useForm<SignInFormValues>({
-    defaultValues: {},
+    defaultValues: { email: "", password: "" },
     resolver: zodResolver(SignInFormSchema),
     mode: "onChange",
   });
@@ -52,7 +52,7 @@ export default function SignInPage({
       <h1 className="text-center font-bold">Sign in</h1>
       <FormControl label="Email" error={form.formState.errors.email?.message}>
         <Input
-          start={<AtSignIcon className="w-4 h-4" />}
+          start={<Icon name="AtSign" className="w-4 h-4" />}
           placeholder="john@example.com"
           {...form.register("email")}
         />
@@ -62,7 +62,7 @@ export default function SignInPage({
         error={form.formState.errors.password?.message}
       >
         <Input
-          start={<LockIcon className="w-4 h-4" />}
+          start={<Icon name="Lock" className="w-4 h-4" />}
           type={showPassword ? "text" : "password"}
           end={
             <ShowPasswordButton

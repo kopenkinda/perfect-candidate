@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AtSignIcon, LockIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "~/components/ui/button";
@@ -13,6 +12,7 @@ import { type AuthActionResult, login, register } from "../actions";
 import { Alert } from "~/components/ui/alert";
 import Link from "next/link";
 import { routes } from "~/auth/routes";
+import { Icon } from "~/components/ui/app-icon";
 
 export default function SignupPage() {
   const [loading, setLoading] = useState(false);
@@ -21,7 +21,10 @@ export default function SignupPage() {
   const [showPasswordConfirmation, setShowPasswordConfirmation] =
     useState(false);
   const form = useForm<SignUpFormValues>({
-    defaultValues: {},
+    defaultValues: {
+      email: "",
+      password: { base: "", confirmation: "" },
+    },
     resolver: zodResolver(SignUpFormSchema),
   });
   return (
@@ -52,7 +55,7 @@ export default function SignupPage() {
       <h1 className="text-center font-bold">Create an account</h1>
       <FormControl label="Email" error={form.formState.errors.email?.message}>
         <Input
-          start={<AtSignIcon className="w-4 h-4" />}
+          start={<Icon name="AtSign" />}
           placeholder="john@example.com"
           {...form.register("email")}
         />
@@ -62,7 +65,7 @@ export default function SignupPage() {
         error={form.formState.errors.password?.base?.message}
       >
         <Input
-          start={<LockIcon className="w-4 h-4" />}
+          start={<Icon name="Lock" />}
           end={
             <ShowPasswordButton
               showing={showPassword}
@@ -78,7 +81,7 @@ export default function SignupPage() {
         error={form.formState.errors.password?.root?.message}
       >
         <Input
-          start={<LockIcon className="w-4 h-4" />}
+          start={<Icon name="Lock" />}
           type={showPasswordConfirmation ? "text" : "password"}
           end={
             <ShowPasswordButton
