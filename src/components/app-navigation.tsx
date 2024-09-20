@@ -1,6 +1,7 @@
 import { ThemeToggle } from "~/app/theme-toggle";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { AppNavigationUserSection } from "./app-navigation-user-section";
 
 export const AppNavigation = () => {
   return (
@@ -16,7 +17,9 @@ export const AppNavigation = () => {
             </Link>
           </Button>
         </div>
-        <div className="navbar-end"></div>
+        <div className="navbar-end">
+          <AppNavigationUserSection />
+        </div>
       </div>
     </div>
   );

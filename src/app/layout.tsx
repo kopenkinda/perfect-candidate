@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
 import localFont from "next/font/local";
+import { AppNavigation } from "~/components/app-navigation";
+import { themeConfig } from "~/config/theme.config";
+import { auth } from "~/lib/auth";
 import "./globals.css";
 import { ThemeProvider } from "./theme-provider";
-import { AppNavigation } from "~/components/app-navigation";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -20,25 +23,25 @@ export const metadata: Metadata = {
   description: "",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <AppNavigation />
-          <main className="p-4 pt-0">{children}</main>
-        </ThemeProvider>
+        <SessionProvider session={session}>
+          <ThemeProvider
+            value={{ light: themeConfig.light, dark: themeConfig.dark }}
+          >
+            <AppNavigation />
+            <main className="p-4 pt-0">{children}</main>
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );

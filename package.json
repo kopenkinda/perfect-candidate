@@ -10,7 +10,11 @@
     "prisma": "prisma"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^2.5.0",
+    "@hookform/resolvers": "^3.9.0",
+    "@icons-pack/react-simple-icons": "^10.0.0",
     "@prisma/client": "5.19.1",
+    "@radix-ui/react-slot": "^1.1.0",
     "@t3-oss/env-nextjs": "^0.11.1",
     "clsx": "^2.1.1",
     "daisyui": "^4.12.10",
@@ -20,6 +24,7 @@
     "next-themes": "^0.3.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.53.0",
     "tailwind-merge": "^2.5.2",
     "zod": "^3.23.8"
   },

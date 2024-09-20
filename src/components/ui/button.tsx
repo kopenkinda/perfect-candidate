@@ -1,6 +1,6 @@
-import { ComponentProps, forwardRef, ReactNode } from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { ComponentProps, forwardRef } from "react";
 import { cn } from "~/lib/utils";
-import { Slot } from "./slot";
 
 export type ButtonVariant =
   | "neutral"
@@ -45,18 +45,17 @@ const ButtonSizeMap = {
 export type ButtonWidthType = "full" | "wide";
 
 const ButtonWidthMap = {
-  full: "btn-full",
+  full: "btn-block",
   wide: "btn-wide",
 } satisfies Record<ButtonWidthType, string>;
 
-export type ButtonProps = {
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   wide?: ButtonWidthType;
   asChild?: boolean;
-  children: ReactNode;
-};
-
+}
 export const Button = forwardRef<
   HTMLButtonElement,
   ButtonProps & ComponentProps<"button">

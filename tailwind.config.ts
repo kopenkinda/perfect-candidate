@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import daisyui, { type Config as DaisyUIConfig } from "daisyui";
+import { themeConfig } from "./src/config/theme.config";
 
 const config: Config & { daisyui?: DaisyUIConfig } = {
   content: [
@@ -18,10 +19,10 @@ const config: Config & { daisyui?: DaisyUIConfig } = {
   },
   plugins: [daisyui],
   daisyui: {
-    themes: ["bumblebee", "dim"],
+    themes: [themeConfig.light, themeConfig.dark],
     logs: process.env.NODE_ENV === "development",
-    darkTheme: "dim",
+    darkTheme: themeConfig.dark,
   },
-  darkMode: ["class", '[data-theme="dim"]'],
+  darkMode: ["selector", `[data-theme="${themeConfig.dark}"]`],
 };
 export default config;
