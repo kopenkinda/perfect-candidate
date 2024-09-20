@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import localFont from "next/font/local";
+import { auth } from "~/auth";
 import { AppNavigation } from "~/components/app-navigation";
 import { themeConfig } from "~/config/theme.config";
-import { auth } from "~/auth";
 import "./globals.css";
 import { ThemeProvider } from "./theme-provider";
 
@@ -36,7 +36,10 @@ export default async function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <ThemeProvider
-            value={{ light: themeConfig.light, dark: themeConfig.dark }}
+            defaultTheme="system"
+            enableSystem
+            attribute="data-theme"
+            themes={[themeConfig.light, themeConfig.dark]}
           >
             <AppNavigation />
             <main className="p-4 pt-0">{children}</main>
