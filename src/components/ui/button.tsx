@@ -31,7 +31,15 @@ const ButtonVariantMap = {
   glass: "glass",
 } satisfies Record<ButtonVariant, string>;
 
-export type ButtonSize = "lg" | "md" | "sm" | "xs" | "square" | "circle";
+export type ButtonSize =
+  | "lg"
+  | "md"
+  | "sm"
+  | "xs"
+  | "square"
+  | "circle"
+  | "full"
+  | "wide";
 
 const ButtonSizeMap = {
   lg: "btn-lg",
@@ -40,20 +48,14 @@ const ButtonSizeMap = {
   xs: "btn-xs",
   square: "btn-square",
   circle: "btn-circle",
-} satisfies Record<ButtonSize, string>;
-
-export type ButtonWidthType = "full" | "wide";
-
-const ButtonWidthMap = {
   full: "btn-block",
   wide: "btn-wide",
-} satisfies Record<ButtonWidthType, string>;
+} satisfies Record<ButtonSize, string>;
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
-  wide?: ButtonWidthType;
   asChild?: boolean;
 }
 export const Button = forwardRef<
@@ -69,7 +71,6 @@ export const Button = forwardRef<
         "btn",
         ButtonVariantMap[props.variant ?? "neutral"],
         props.size && ButtonSizeMap[props.size],
-        props.wide && ButtonWidthMap[props.wide],
         className
       )}
       ref={ref}

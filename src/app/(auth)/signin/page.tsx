@@ -76,7 +76,7 @@ export default function SignInPage({
       </FormControl>
       <Button
         variant="primary"
-        wide="full"
+        size="full"
         className="mt-2"
         disabled={loading || result?.success === true}
       >

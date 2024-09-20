@@ -49,18 +49,27 @@ export const UserInformationForm = (props: UserInformationFormProps) => {
   return (
     <form
       onSubmit={form.handleSubmit(onSubmit)}
-      className="flex gap-2 items-start"
+      className="flex flex-col md:flex-row gap-2 items-start"
     >
-      <FormControl label="Email" error={form.formState.errors.email?.message}>
+      <FormControl
+        className="w-full"
+        label="Email"
+        error={form.formState.errors.email?.message}
+      >
         <Input start={<Icon name="AtSign" />} {...form.register("email")} />
       </FormControl>
       <FormControl
+        className="w-full"
         label="Full Name"
         error={form.formState.errors.name?.message}
       >
         <Input start={<Icon name="User" />} {...form.register("name")} />
       </FormControl>
-      <Button size="square" disabled={updated} type="submit" className='mt-9'>
+      <Button
+        disabled={updated}
+        type="submit"
+        className="btn-block md:btn-square md:mt-9"
+      >
         <Icon name={updated ? "Check" : "Save"} />
       </Button>
     </form>

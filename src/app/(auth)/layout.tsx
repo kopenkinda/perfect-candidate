@@ -66,11 +66,11 @@ const AuthLayout = function ({
           </form>
 
           {path.includes("signin") ? (
-            <Button asChild variant="ghost" wide="full" className="underline">
+            <Button asChild variant="ghost" size="full" className="underline">
               <Link href="/signup">Dont have an account?</Link>
             </Button>
           ) : (
-            <Button asChild variant="ghost" wide="full" className="underline">
+            <Button asChild variant="ghost" size="full" className="underline">
               <Link href="/signin">Already have an account?</Link>
             </Button>
           )}
