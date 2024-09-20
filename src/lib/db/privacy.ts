@@ -1,7 +1,7 @@
 "use server";
 
 import { UserPrivacy } from "@prisma/client";
-import { db } from ".";
+import { db, UnmodifiableTableProperties } from ".";
 import { getUserById } from "./user";
 
 export const getUserPrivacySettings = async (userId: string) => {
@@ -20,10 +20,7 @@ export const getUserPrivacySettings = async (userId: string) => {
   });
 };
 
-export type PrivacyKey = keyof Omit<
-  UserPrivacy,
-  "id" | "userId" | "createdAt" | "updatedAt"
->;
+export type PrivacyKey = keyof Omit<UserPrivacy, UnmodifiableTableProperties>;
 
 export const updateUserPrivacy = async (
   userId: string,

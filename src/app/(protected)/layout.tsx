@@ -16,7 +16,7 @@ export default function ApplicationLayout({
     <div className="grid grid-cols-7 gap-4 relative">
       <div className="col-span-7 md:col-span-2">
         <div className="sticky top-20">
-          <Card bordered className="bg-base-200">
+          <Card bordered className="bg-base-200 overflow-x-auto">
             <CardContent className="flex flex-row md:flex-col items-center gap-2 p-2 md:p-4">
               <Button
                 className="md:btn-block grow"
@@ -51,7 +51,11 @@ export default function ApplicationLayout({
                 </Link>
               </Button>
               <Divider className="m-0 divider-horizontal md:divider-vertical" />
-              <Button className="md:btn-block grow" variant="secondary" asChild>
+              <Button
+                className="md:btn-block grow"
+                variant="secondary"
+                asChild
+              >
                 <Link href="/tips">
                   <Icon name="Lightbulb" />
                   Tips
