@@ -3,7 +3,7 @@ import { SessionProvider } from "next-auth/react";
 import localFont from "next/font/local";
 import { AppNavigation } from "~/components/app-navigation";
 import { themeConfig } from "~/config/theme.config";
-import { auth } from "~/lib/auth";
+import { auth } from "~/auth";
 import "./globals.css";
 import { ThemeProvider } from "./theme-provider";
 
@@ -30,19 +30,19 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <SessionProvider session={session}>
+    <SessionProvider session={session}>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
           <ThemeProvider
             value={{ light: themeConfig.light, dark: themeConfig.dark }}
           >
             <AppNavigation />
             <main className="p-4 pt-0">{children}</main>
           </ThemeProvider>
-        </SessionProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </SessionProvider>
   );
 }

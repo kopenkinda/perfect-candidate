@@ -1,26 +1,26 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { AtSignIcon, LockIcon } from "lucide-react";
-import { z } from "zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Button } from "~/components/ui/button";
 import { FormControl } from "~/components/ui/form-control";
 import { Input } from "~/components/ui/input";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { SignInFormSchema, SignInFormValues } from "../schemas";
 import { ShowPasswordButton } from "../show-password-button";
+import { type AuthActionResult, login } from "../actions";
+import { Alert } from "~/components/ui/alert";
+import Link from "next/link";
+import { routes } from "~/auth/routes";
 
-const SignInFormSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters")
-    .max(24, "Password must be at most 24 characters"),
-});
-
-type SignInFormValues = z.infer<typeof SignInFormSchema>;
-
-export default function SignInPage() {
+export default function SignInPage({
+  searchParams: { callbackUrl },
+}: {
+  searchParams: { callbackUrl?: string };
+}) {
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<AuthActionResult | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const form = useForm<SignInFormValues>({
     defaultValues: {},
@@ -29,10 +29,26 @@ export default function SignInPage() {
   });
   return (
     <form
-      onSubmit={form.handleSubmit((values) => {
-        console.log(values);
+      onSubmit={form.handleSubmit(async (values) => {
+        setLoading(true);
+        const result = await login(values, callbackUrl);
+        setLoading(false);
+        setResult(result);
       })}
     >
+      {result?.success === true && (
+        <Alert variant="success" className="mb-2">
+          <span>{result.message ?? "Logged in"}</span>
+          <Button size="sm" asChild>
+            <Link href={routes.DEFAULT_LOGIN_REDIRECT}>Go to app</Link>
+          </Button>
+        </Alert>
+      )}
+      {result?.success === false && (
+        <Alert variant="error" className="mb-2">
+          <span>{result.error ?? "Error logging in"}</span>
+        </Alert>
+      )}
       <h1 className="text-center font-bold">Sign in</h1>
       <FormControl label="Email" error={form.formState.errors.email?.message}>
         <Input
@@ -58,7 +74,12 @@ export default function SignInPage() {
           {...form.register("password")}
         />
       </FormControl>
-      <Button variant="primary" wide="full" className="mt-2">
+      <Button
+        variant="primary"
+        wide="full"
+        className="mt-2"
+        disabled={loading || result?.success === true}
+      >
         Log in with credentials
       </Button>
     </form>

@@ -15,3 +15,16 @@ const globalForPrisma = globalThis as unknown as {
 export const db = globalForPrisma.prisma ?? createPrismaClient();
 
 if (env.NODE_ENV !== "production") globalForPrisma.prisma = db;
+
+
+export const getUserByEmail = async (email: string) => {
+  return await db.user.findUnique({
+    where: { email },
+  });
+};
+
+export const getUserById = async (id: string) => {
+  return await db.user.findUnique({
+    where: { id },
+  });
+};

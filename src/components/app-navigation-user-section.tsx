@@ -1,8 +1,8 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { useSession, signOut } from "next-auth/react";
 
 export const AppNavigationUserSection = () => {
   const session = useSession();
@@ -13,5 +13,8 @@ export const AppNavigationUserSection = () => {
       </Button>
     );
   }
-  return null;
+  if (session.status === "loading") {
+    return null;
+  }
+  return <Button onClick={() => signOut()}>Sign out</Button>;
 };
