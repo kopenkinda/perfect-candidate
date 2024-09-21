@@ -16,7 +16,7 @@ export type ButtonVariant =
   | "outline"
   | "glass";
 
-const ButtonVariantMap = {
+export const ButtonVariantMap = {
   neutral: "btn-neutral",
   primary: "btn-primary",
   secondary: "btn-secondary",
@@ -41,7 +41,7 @@ export type ButtonSize =
   | "full"
   | "wide";
 
-const ButtonSizeMap = {
+export const ButtonSizeMap = {
   lg: "btn-lg",
   md: "btn-md",
   sm: "btn-sm",

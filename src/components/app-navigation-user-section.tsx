@@ -1,10 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "./ui/button";
+import { Button } from "~/components/ui/button";
 import { useSession, signOut } from "next-auth/react";
-import { Icon } from "./ui/app-icon";
+import { Icon } from "~/components/ui/app-icon";
 import { useUser } from "~/hooks/use-user";
+import {
+  Dropdown,
+  DropdownContent,
+  DropdownItem,
+  DropdownTrigger,
+} from "~/components/ui/dropdown";
 
 export const AppNavigationUserSection = () => {
   const session = useSession();
@@ -20,12 +26,19 @@ export const AppNavigationUserSection = () => {
     return null;
   }
   return (
-    <>
-      <Button className="mr-1" variant='outline'>
+    <Dropdown vertical="bottom" horizontal="end">
+      <DropdownTrigger variant="outline">
         <Icon name="Wallet" />
-        {user?.credits}
-      </Button>
-      <Button onClick={() => signOut()}>Sign out</Button>
-    </>
+        <span>{user?.credits}</span>
+      </DropdownTrigger>
+      <DropdownContent className="w-32 gap-2">
+        <Button asChild size="sm" variant="primary">
+          <DropdownItem>Buy credits</DropdownItem>
+        </Button>
+        <Button asChild onClick={() => signOut()} size="sm">
+          <DropdownItem>Sign out</DropdownItem>
+        </Button>
+      </DropdownContent>
+    </Dropdown>
   );
 };
