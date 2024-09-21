@@ -138,10 +138,23 @@ model UserLanguage {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
 
+  language String
+  level    UserLanguageLevel
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@index([userId])
+}
+
+enum UserLanguageLevel {
+  A1
+  A2
+  B1
+  B2
+  C1
+  C2
+  NATIVE
 }
 
 model Skill {
