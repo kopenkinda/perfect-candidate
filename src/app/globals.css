@@ -7,3 +7,9 @@
     text-wrap: balance;
   }
 }
+
+html {
+  background-image: url("/images/graph-paper.svg");
+  background-size: 10%;
+  background-repeat: repeat;
+}

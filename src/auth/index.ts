@@ -42,3 +42,7 @@ export const {
   signIn: naSignIn,
   signOut: naSignOut,
 } = NextAuth(mergedConfig);
+
+export const user = async () => {
+  return (await auth())?.user;
+};
