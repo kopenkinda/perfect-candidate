@@ -50,7 +50,7 @@ export const PrivacySettings = async ({
           checked={settings.phone}
         />
         <PrivacyToggle
-          icon="User"
+          icon="PersonStanding"
           label="Share my gender"
           pkey="sex"
           checked={settings.sex}

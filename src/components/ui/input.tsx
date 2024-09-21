@@ -43,11 +43,14 @@ export interface InputProps
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, variant, type, inputSize, start, end, ...props }, ref) => {
+  (
+    { className, variant = "bordered", type, inputSize, start, end, ...props },
+    ref
+  ) => {
     const computedClassName = cn(
       "input",
       { "flex items-center gap-2": (start || end) !== undefined },
-      variant && InputVariantMap[variant],
+      InputVariantMap[variant],
       inputSize && InputSizeMap[inputSize],
       className
     );

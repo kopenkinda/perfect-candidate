@@ -38,3 +38,17 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
 );
 
 Alert.displayName = "Alert";
+
+export interface AlertActionsProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  asChild?: boolean;
+}
+
+export const AlertActions = React.forwardRef<HTMLDivElement, AlertActionsProps>(
+  ({ asChild, ...props }, ref) => {
+    const Comp = asChild ? Slot : "div";
+    return <Comp {...props} ref={ref} />;
+  }
+);
+
+AlertActions.displayName = "AlertActions";

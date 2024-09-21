@@ -2,7 +2,10 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { UserInformation, UserInformationSchema } from "./schemas";
+import {
+  UserInformationForm as TUserInformationForm,
+  UserInformationSchema,
+} from "./schemas";
 import { FormControl } from "~/components/ui/form-control";
 import { Input } from "~/components/ui/input";
 import { Icon } from "~/components/ui/app-icon";
@@ -11,7 +14,7 @@ import { updateUserInformationAction } from "./general-settings.actions";
 import { useState } from "react";
 
 export interface UserInformationFormProps {
-  info: UserInformation;
+  info: TUserInformationForm;
 }
 
 export const UserInformationForm = (props: UserInformationFormProps) => {
@@ -19,7 +22,7 @@ export const UserInformationForm = (props: UserInformationFormProps) => {
   const [loadedName, setLoadedName] = useState(props.info.name);
   const [loadedEmail, setLoadedEmail] = useState(props.info.email);
 
-  const form = useForm<UserInformation>({
+  const form = useForm<TUserInformationForm>({
     defaultValues: {
       name: props.info.name,
       email: props.info.email,
@@ -27,7 +30,7 @@ export const UserInformationForm = (props: UserInformationFormProps) => {
     resolver: zodResolver(UserInformationSchema),
   });
 
-  const onSubmit = async (data: UserInformation) => {
+  const onSubmit = async (data: TUserInformationForm) => {
     let changed = false;
     if (data.email !== loadedEmail) {
       await updateUserInformationAction("email", data.email);
@@ -49,26 +52,38 @@ export const UserInformationForm = (props: UserInformationFormProps) => {
   return (
     <form
       onSubmit={form.handleSubmit(onSubmit)}
-      className="flex flex-col md:flex-row gap-2 items-start"
+      className="grid grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)_auto] gap-2"
     >
       <FormControl
-        className="w-full"
-        label="Email"
+        label={
+          <>
+            <Icon name="AtSign" />
+            Email
+          </>
+        }
         error={form.formState.errors.email?.message}
+        className="col-span-3 md:col-span-1"
       >
-        <Input start={<Icon name="AtSign" />} {...form.register("email")} />
+        <Input {...form.register("email")} />
       </FormControl>
       <FormControl
-        className="w-full"
-        label="Full Name"
+        label={
+          <>
+            <Icon name="User" />
+            Name
+          </>
+        }
         error={form.formState.errors.name?.message}
+        className="col-span-3 md:col-span-1"
       >
-        <Input start={<Icon name="User" />} {...form.register("name")} />
+        <Input
+          {...form.register("name")}
+        />
       </FormControl>
       <Button
         disabled={updated}
         type="submit"
-        className="btn-block md:btn-square md:mt-9"
+        className="col-span-3 md:col-span-1 md:mt-9"
       >
         <Icon name={updated ? "Check" : "Save"} />
       </Button>
