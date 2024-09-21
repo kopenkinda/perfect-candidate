@@ -11,15 +11,13 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
-      // ...other properties
-      // role: UserRole;
+      credits: number;
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    credits: number;
+  }
 }
 
 export class PasswordNotSetException extends AuthError {
@@ -44,7 +42,7 @@ const credentials = Credentials({
       }
       const passwordsMatch = await bcrypt.compare(password, user.password);
       if (passwordsMatch) {
-        return { id: user.id, email: user.email };
+        return { id: user.id, email: user.email, credits: user.credits };
       }
     }
     return null;
