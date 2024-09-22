@@ -30,6 +30,7 @@ model User {
   privacy    UserPrivacy?
   experience UserExperience[]
   languages  UserLanguage[]
+  skills     UserSkill[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -157,14 +158,22 @@ enum UserLanguageLevel {
   NATIVE
 }
 
-model Skill {
-  id          String  @id @default(cuid())
-  name        String
-  description String?
-  approved    Boolean @default(false)
-  type        Int
-  // Type: 0 - Soft | 1 - Hard | 2 - Language
+model UserSkill {
+  id   String        @id @default(cuid())
+  name String
+  type UserSkillType
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+}
+
+enum UserSkillType {
+  HARD
+  SOFT
+  OTHER
 }
