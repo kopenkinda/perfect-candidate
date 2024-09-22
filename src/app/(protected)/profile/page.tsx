@@ -4,11 +4,15 @@ import { LanguageForm } from "./language/language-form";
 
 export default function ProfilePage() {
   return (
-    <div className="columns-1 md:columns-2 2xl:columns-3 gap-4 [&>*]:mb-4 [&>*]:break-inside-avoid">
-      <GeneralSettings />
-      <PrivacySettings />
+    <div className="grid lg:grid-cols-2 gap-2">
+      <div>
+        <GeneralSettings />
+      </div>
+      <div className="[&>*]:mb-2">
+        <PrivacySettings />
+        <LanguageForm />
+      </div>
       <div />
-      <LanguageForm />
     </div>
   );
 }
