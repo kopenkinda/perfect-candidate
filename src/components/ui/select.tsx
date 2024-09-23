@@ -47,6 +47,7 @@ const Select = ({ children, variant, size, ...props }: SelectProps) => {
   const updatedChildren = childrenArray.map((child, index) => {
     if (React.isValidElement(child)) {
       if (child.type === SelectTrigger) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return React.cloneElement(child as any, {
           variant: variant!,
           size,

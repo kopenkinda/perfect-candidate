@@ -8,15 +8,19 @@ import { FormControl } from "~/components/ui/form-control";
 import { Input } from "~/components/ui/input";
 import { SignUpFormSchema, SignUpFormValues } from "../schemas";
 import { ShowPasswordButton } from "../show-password-button";
-import { type AuthActionResult, login, register } from "../actions";
+import { login, register } from "../actions";
 import { Alert } from "~/components/ui/alert";
 import Link from "next/link";
 import { routes } from "~/auth/routes";
 import { Icon } from "~/components/ui/app-icon";
+import type { ActionResult, NonExclusiveString } from "~/lib/actions.utils";
 
 export default function SignupPage() {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<AuthActionResult | null>(null);
+  const [result, setResult] = useState<ActionResult<
+    NonExclusiveString,
+    null
+  > | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] =
     useState(false);
@@ -41,7 +45,7 @@ export default function SignupPage() {
     >
       {result?.success === true && (
         <Alert variant="success" className="mb-2">
-          <span>{result.message ?? "Account created"}</span>
+          <span>{result.data ?? "Account created"}</span>
           <Button size="sm" asChild>
             <Link href={routes.DEFAULT_LOGIN_REDIRECT}>Go to app</Link>
           </Button>

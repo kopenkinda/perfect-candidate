@@ -10,16 +10,20 @@ import {
 } from "~/lib/db/skills";
 import { UserSkillSchema } from "./schemas";
 import {
-  Action,
+  ActionResult,
   CommonActionErrors,
   error,
   success,
 } from "~/lib/actions.utils";
 
-export const createSkillAction: Action<
-  CommonActionErrors.USER_NOT_FOUND | CommonActionErrors.LIMIT_EXCEEDED,
-  typeof addUserSkill
-> = async (type: UserSkillType) => {
+export const createSkillAction = async (
+  type: UserSkillType
+): Promise<
+  ActionResult<
+    CommonActionErrors.USER_NOT_FOUND | CommonActionErrors.LIMIT_EXCEEDED,
+    ReturnType<typeof addUserSkill>
+  >
+> => {
   const session = await user();
   if (!session) {
     return error(CommonActionErrors.USER_NOT_FOUND);
@@ -32,10 +36,15 @@ export const createSkillAction: Action<
   return success(res);
 };
 
-export const updateSkillAction: Action<
-  CommonActionErrors.USER_NOT_FOUND | CommonActionErrors.INVALID_INPUT,
-  typeof updateUserSkill
-> = async (id: string, name: string) => {
+export const updateSkillAction = async (
+  id: string,
+  name: string
+): Promise<
+  ActionResult<
+    CommonActionErrors.USER_NOT_FOUND | CommonActionErrors.INVALID_INPUT,
+    ReturnType<typeof updateUserSkill>
+  >
+> => {
   const session = await user();
   if (!session) {
     return error(CommonActionErrors.USER_NOT_FOUND);
@@ -48,10 +57,14 @@ export const updateSkillAction: Action<
   return success(res);
 };
 
-export const deleteSkillAction: Action<
-  CommonActionErrors.USER_NOT_FOUND,
-  typeof deleteUserSkill
-> = async (id: string) => {
+export const deleteSkillAction = async (
+  id: string
+): Promise<
+  ActionResult<
+    CommonActionErrors.USER_NOT_FOUND,
+    ReturnType<typeof deleteUserSkill>
+  >
+> => {
   const session = await user();
   if (!session) {
     return error(CommonActionErrors.USER_NOT_FOUND);

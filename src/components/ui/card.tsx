@@ -23,6 +23,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
     );
   }
 );
+Card.displayName = "Card";
 
 export interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {
   asChild?: boolean;
@@ -36,6 +37,7 @@ export const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
     );
   }
 );
+CardContent.displayName = "CardContent";
 
 export interface CardTitleProps extends React.HTMLAttributes<HTMLDivElement> {
   asChild?: boolean;
@@ -49,6 +51,7 @@ export const CardTitle = React.forwardRef<HTMLSpanElement, CardTitleProps>(
     );
   }
 );
+CardTitle.displayName = "CardTitle";
 
 export interface CardDescriptionProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -64,3 +67,4 @@ export const CardDescription = React.forwardRef<
     <Comp className={cn("text-foreground", className)} {...props} ref={ref} />
   );
 });
+CardDescription.displayName = "CardDescription";

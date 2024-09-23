@@ -28,10 +28,11 @@ export interface GenderSelectorProps {
 }
 
 export const GenderSelector = (props: GenderSelectorProps) => {
+  const { gender, onValueChange } = props;
   const resolvedGenderFromProps = (
-    allowedGenders.includes(props.gender as AllowedGenders)
-      ? props.gender
-      : props.gender === null
+    allowedGenders.includes(gender as AllowedGenders)
+      ? gender
+      : gender === null
       ? "not-specified"
       : "other"
   ) as AllowedGenders | "other";
@@ -40,21 +41,21 @@ export const GenderSelector = (props: GenderSelectorProps) => {
     AllowedGenders | "other"
   >(resolvedGenderFromProps);
 
-  const [customGender, setCustomGender] = useState<string>(props.gender || "");
+  const [customGender, setCustomGender] = useState<string>(gender || "");
 
   useEffect(() => {
     if (selectedGender === "not-specified") {
-      props.onValueChange(null);
+      onValueChange(null);
     } else if (selectedGender === "other") {
       if (customGender.trim().length === 0) {
-        props.onValueChange(null);
+        onValueChange(null);
       } else {
-        props.onValueChange(customGender);
+        onValueChange(customGender);
       }
     } else {
-      props.onValueChange(selectedGender);
+      onValueChange(selectedGender);
     }
-  }, [selectedGender, customGender]);
+  }, [selectedGender, customGender, onValueChange]);
 
   return (
     <>

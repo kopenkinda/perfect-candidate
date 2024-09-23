@@ -1,9 +1,9 @@
-export type ActionSuccessResponse<
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- any is needed here
-  TExecutedFN extends (...args: any[]) => unknown
-> = {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type NonExclusiveString = string & {};
+
+export type ActionSuccessResponse<TReturn> = {
   success: true;
-  data: Awaited<ReturnType<TExecutedFN>>;
+  data: TReturn | Awaited<TReturn>;
 };
 
 export type ActionErrorResponse<TError extends string | null> = {
@@ -11,14 +11,9 @@ export type ActionErrorResponse<TError extends string | null> = {
   error: TError;
 };
 
-export type Action<
-  TError extends string | null,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- any is needed here
-  TExecutedFN extends (...args: any[]) => unknown
-> = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- any is needed here
-  ...args: any[]
-) => Promise<ActionSuccessResponse<TExecutedFN> | ActionErrorResponse<TError>>;
+export type ActionResult<TError extends string | null, TReturn> =
+  | ActionSuccessResponse<TReturn>
+  | ActionErrorResponse<TError>;
 
 export enum CommonActionErrors {
   USER_NOT_FOUND = "user_not_found",
@@ -27,9 +22,9 @@ export enum CommonActionErrors {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- any is needed here
-export const success = <TExecutedFN extends (...args: any[]) => unknown>(
-  data: Awaited<ReturnType<TExecutedFN>>
-): ActionSuccessResponse<TExecutedFN> => ({
+export const success = <TResult>(
+  data: TResult
+): ActionSuccessResponse<TResult> => ({
   success: true,
   data,
 });

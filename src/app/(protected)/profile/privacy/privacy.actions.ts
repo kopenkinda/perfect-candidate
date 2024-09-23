@@ -9,5 +9,5 @@ export const updatePrivacy = async (pkey: PrivacyKey, value: boolean) => {
     throw new Error("not authenticated");
   }
   const { user } = session;
-  await updateUserPrivacy(user.id, pkey as any, value);
+  await updateUserPrivacy(user.id, pkey, value);
 };

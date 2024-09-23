@@ -87,7 +87,7 @@ const LanguageRow = (props: {
     };
 
     handler();
-  }, [debouncedLanguage, level]);
+  }, [debouncedLanguage, level, props.language]);
 
   return (
     <div className="flex gap-2">

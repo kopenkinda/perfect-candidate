@@ -10,9 +10,10 @@ import { Icon } from "~/components/ui/app-icon";
 import { Button } from "~/components/ui/button";
 import { FormControl } from "~/components/ui/form-control";
 import { Input } from "~/components/ui/input";
-import { type AuthActionResult, login } from "../actions";
+import { login } from "../actions";
 import { SignInFormSchema, SignInFormValues } from "../schemas";
 import { ShowPasswordButton } from "../show-password-button";
+import type { ActionResult, NonExclusiveString } from "~/lib/actions.utils";
 
 export default function SignInPage({
   searchParams: { callbackUrl },
@@ -20,7 +21,10 @@ export default function SignInPage({
   searchParams: { callbackUrl?: string };
 }) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<AuthActionResult | null>(null);
+  const [result, setResult] = useState<ActionResult<
+    NonExclusiveString,
+    null
+  > | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const form = useForm<SignInFormValues>({
     defaultValues: { email: "", password: "" },
@@ -38,7 +42,7 @@ export default function SignInPage({
     >
       {result?.success === true && (
         <Alert variant="success" className="mb-2">
-          <span>{result.message ?? "Logged in"}</span>
+          <span>{result.data ?? "Logged in"}</span>
           <Button size="sm" asChild>
             <Link href={routes.DEFAULT_LOGIN_REDIRECT}>Go to app</Link>
           </Button>

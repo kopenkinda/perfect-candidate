@@ -1,39 +1,37 @@
 "use server";
 
 import bcrypt from "bcryptjs";
+import { AuthError } from "next-auth";
+import { naSignIn } from "~/auth";
+import { routes } from "~/auth/routes";
+import {
+  ActionResult,
+  error,
+  NonExclusiveString,
+  success,
+} from "~/lib/actions.utils";
 import { db } from "~/lib/db";
+import { getUserByEmail } from "~/lib/db/user";
 import {
   SignInFormSchema,
   SignInFormValues,
   SignUpFormSchema,
   SignUpFormValues,
 } from "./schemas";
-import { naSignIn } from "~/auth";
-import { routes } from "~/auth/routes";
-import { AuthError } from "next-auth";
-import { getUserByEmail } from "~/lib/db/user";
-
-export type AuthActionResult =
-  | {
-      success: true;
-      message?: string;
-    }
-  | {
-      success: false;
-      error: string;
-    };
 
 export const register = async (
   data: SignUpFormValues
-): Promise<AuthActionResult> => {
+): Promise<
+  ActionResult<"This email has already been used" | NonExclusiveString, null>
+> => {
   const validation = SignUpFormSchema.safeParse(data);
   if (!validation.success) {
-    return { success: false, error: validation.error.message };
+    return error(validation.error.message);
   }
   const hashedPassword = await hashPassword(data.password.base);
   const userExists = await getUserByEmail(data.email);
   if (userExists) {
-    return { success: false, error: "This email has already been used" };
+    return error("This email has already been used");
   }
   await db.user.create({
     data: {
@@ -41,16 +39,24 @@ export const register = async (
       password: hashedPassword,
     },
   });
-  return { success: true };
+  return success(null);
 };
 
 export const login = async (
   data: SignInFormValues,
   callbackUrl?: string
-): Promise<AuthActionResult> => {
+): Promise<
+  ActionResult<
+    | "Please log in with the social media you used to register your account"
+    | "Invalid credentials"
+    | "Something went wrong"
+    | NonExclusiveString,
+    null
+  >
+> => {
   const validation = SignInFormSchema.safeParse(data);
   if (!validation.success) {
-    return { success: false, error: validation.error.message };
+    return error(validation.error.message);
   }
   try {
     await naSignIn("credentials", {
@@ -58,37 +64,38 @@ export const login = async (
       password: data.password,
       redirectTo: callbackUrl || routes.DEFAULT_LOGIN_REDIRECT,
     });
-  } catch (error) {
-    console.log(error);
-    if (error instanceof AuthError) {
-      if (error.name === "PasswordNotSetException") {
-        return {
-          success: false,
-          error:
-            "Please log in with the social media you used to register your account",
-        };
+  } catch (err) {
+    console.log(err);
+    if (err instanceof AuthError) {
+      if (err.name === "PasswordNotSetException") {
+        return error(
+          "Please log in with the social media you used to register your account"
+        );
       }
-      switch (error.type) {
+      switch (err.type) {
         case "CredentialsSignin":
-          return { success: false, error: "Invalid credentials" };
+          return error("Invalid credentials");
         default:
-          return { success: false, error: "Something went wrong" };
+          return error("Something went wrong");
       }
     }
-    throw error;
+    throw err;
   }
-  return { success: true };
+  return success(null);
 };
 
-export const loginWithProvider = async (data: FormData) => {
+export const loginWithProvider = async (
+  data: FormData
+): Promise<ActionResult<"Provider is required", null>> => {
   const provider = data.get("provider");
   if (!provider) {
-    return;
+    return error("Provider is required");
   }
   const callbackUrl = (data.get("callbackUrl") as string) ?? undefined;
   await naSignIn(provider as string, {
     redirectTo: callbackUrl || routes.DEFAULT_LOGIN_REDIRECT,
   });
+  return success(null);
 };
 
 const hashPassword = async (password: string) => {

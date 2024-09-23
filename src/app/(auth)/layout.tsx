@@ -9,14 +9,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import * as React from "react";
-import { naSignIn } from "~/auth";
 import { Button } from "~/components/ui/button";
 import { Divider } from "~/components/ui/divider";
 import { loginWithProvider } from "./actions";
 
 const AuthLayout = function ({
   children,
-  ...rest
 }: Readonly<{ children?: React.ReactNode }>): JSX.Element {
   const path = usePathname();
   const sp = useSearchParams();
