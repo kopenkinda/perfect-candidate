@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Icon } from "~/components/ui/app-icon";
 import { Button } from "~/components/ui/button";
-import { FormControl, FormItem, FormLabel } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { zodError } from "~/lib/utils";
 import { UserSkillSchema } from "./schemas";
@@ -92,7 +91,7 @@ const SkillRow = (props: {
   }, [debouncedName, props.skill, router]);
 
   return (
-    <div className="flex gap-2">
+    <div className="grid grid-cols-[1fr_auto] gap-1">
       <Input
         placeholder={props.example}
         value={name}
@@ -100,7 +99,7 @@ const SkillRow = (props: {
       />
       <Button
         variant="destructive"
-        size='icon'
+        size="icon"
         onClick={() => props.delete(props.skill.id)}
       >
         <Icon name="Trash" />

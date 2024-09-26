@@ -90,7 +90,7 @@ const LanguageRow = (props: {
   }, [debouncedLanguage, level, props.language]);
 
   return (
-    <div className="flex gap-2">
+    <div className="grid grid-cols-[1fr_theme('size.24')_auto] gap-1">
       <Input
         value={language}
         onChange={(e) => setLanguage(e.target.value)}
