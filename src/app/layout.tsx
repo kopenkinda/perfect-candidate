@@ -3,7 +3,6 @@ import { SessionProvider } from "next-auth/react";
 import localFont from "next/font/local";
 import { auth } from "~/auth";
 import { AppNavigation } from "~/components/app-navigation";
-import { themeConfig } from "~/config/theme.config";
 import "./globals.css";
 import { ThemeProvider } from "./theme-provider";
 
@@ -35,14 +34,9 @@ export default async function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <ThemeProvider
-            defaultTheme="system"
-            enableSystem
-            attribute="data-theme"
-            themes={[themeConfig.light, themeConfig.dark]}
-          >
+          <ThemeProvider defaultTheme="system" enableSystem attribute="class">
             <AppNavigation />
-            <main className="px-2 pb-4 pt-0">{children}</main>
+            <main>{children}</main>
           </ThemeProvider>
         </body>
       </html>

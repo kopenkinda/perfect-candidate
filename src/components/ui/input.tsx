@@ -1,72 +1,25 @@
-import * as React from "react";
+import * as React from "react"
 
-import { cn } from "~/lib/utils";
-
-export type InputVariant =
-  | "bordered"
-  | "ghost"
-  | "primary"
-  | "secondary"
-  | "accent"
-  | "info"
-  | "success"
-  | "warning"
-  | "error";
-
-const InputVariantMap = {
-  bordered: "input-bordered",
-  ghost: "input-ghost",
-  primary: "input-primary",
-  secondary: "input-secondary",
-  accent: "input-accent",
-  info: "input-info",
-  success: "input-success",
-  warning: "input-warning",
-  error: "input-error",
-} as Record<InputVariant, string>;
-
-export type InputSize = "xs" | "sm" | "md" | "lg";
-
-const InputSizeMap = {
-  xs: "input-xs",
-  sm: "input-sm",
-  md: "input-md",
-  lg: "input-lg",
-} as Record<InputSize, string>;
+import { cn } from "~/lib/utils"
 
 export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-  variant?: InputVariant;
-  inputSize?: InputSize;
-  start?: React.ReactNode;
-  end?: React.ReactNode;
-}
+  extends React.InputHTMLAttributes<HTMLInputElement> {}
 
-export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  (
-    { className, variant = "bordered", type, inputSize, start, end, ...props },
-    ref
-  ) => {
-    const computedClassName = cn(
-      "input",
-      { "flex items-center gap-2": (start || end) !== undefined },
-      InputVariantMap[variant],
-      inputSize && InputSizeMap[inputSize],
-      className
-    );
-    if (start || end) {
-      return (
-        <label className={computedClassName}>
-          {start}
-          <input type={type} ref={ref} className="grow" {...props} />
-          {end}
-        </label>
-      );
-    }
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, ...props }, ref) => {
     return (
-      <input type={type} className={computedClassName} ref={ref} {...props} />
-    );
+      <input
+        type={type}
+        className={cn(
+          "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+          className
+        )}
+        ref={ref}
+        {...props}
+      />
+    )
   }
-);
+)
+Input.displayName = "Input"
 
-Input.displayName = "Input";
+export { Input }

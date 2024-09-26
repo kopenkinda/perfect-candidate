@@ -20,8 +20,8 @@ export type UserInformationForm = z.infer<typeof UserInformationSchema>;
 
 export const UserSettingsSchema = z.object({
   gender: z.string().min(1, "Please select a gender").nullable(),
-  phone: z.string().min(1, "Please enter a phone number").nullable(),
-  location: z.string().min(1, "Please enter a location").nullable(),
+  phone: z.string().min(1, "Please enter a phone number").default(""),
+  location: z.string().min(1, "Please enter a location").default(""),
   age: z.coerce
     .number()
     .min(1, "Please enter a valid age")

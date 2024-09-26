@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardHeader,
   CardTitle,
 } from "~/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
@@ -21,23 +22,37 @@ export const SkillsForm = async (props: SkillManagerProps) => {
   const data = await getUserSkills(session.id);
   return (
     <Card className={props.className}>
-      <CardContent>
+      <CardHeader>
         <CardTitle>Skills</CardTitle>
         <CardDescription>Manage your skills and expertise.</CardDescription>
+      </CardHeader>
+      <CardContent>
         <Tabs defaultValue="hard">
-          <TabsList variant="boxed" className="mb-2">
+          <TabsList className="mb-2 w-full">
             <TabsTrigger value="hard">Hard</TabsTrigger>
             <TabsTrigger value="soft">Soft</TabsTrigger>
             <TabsTrigger value="other">Other</TabsTrigger>
           </TabsList>
           <TabsContent value="hard">
-            <SkillsManager skills={data.HARD} type="HARD" example='Ex: React.js' />
+            <SkillsManager
+              skills={data.HARD}
+              type="HARD"
+              example="Ex: React.js"
+            />
           </TabsContent>
           <TabsContent value="soft">
-            <SkillsManager skills={data.SOFT} type="SOFT" example='Ex: Time management' />
+            <SkillsManager
+              skills={data.SOFT}
+              type="SOFT"
+              example="Ex: Time management"
+            />
           </TabsContent>
           <TabsContent value="other">
-            <SkillsManager skills={data.OTHER} type="OTHER" example='Ex: Excel' />
+            <SkillsManager
+              skills={data.OTHER}
+              type="OTHER"
+              example="Ex: Excel"
+            />
           </TabsContent>
         </Tabs>
       </CardContent>

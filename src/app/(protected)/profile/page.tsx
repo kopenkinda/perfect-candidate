@@ -11,12 +11,16 @@ import { SkillsForm } from "./skills/skills-form";
 
 export default function ProfilePage() {
   return (
-    <div className="grid lg:grid-cols-2 gap-2 [&>div>*]:mb-2">
-      <GeneralSettings />
-      <PrivacySettings />
-      <LanguageForm className="lg:col-span-2" />
-      <SkillsForm className="lg:col-span-2" />
-      <Card className="lg:col-span-2">
+    <div className="columns-2 [&>div>*]:mb-2 [&>*]:break-inside-avoid">
+      <div>
+        <GeneralSettings />
+        <PrivacySettings />
+      </div>
+      <div>
+        <LanguageForm />
+        <SkillsForm />
+      </div>
+      <Card className='[column-all]'>
         <CardContent>
           <CardTitle>Work experience</CardTitle>
           <CardDescription>

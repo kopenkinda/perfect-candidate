@@ -3,7 +3,7 @@
 import { UserSettings } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { Icon } from "~/components/ui/app-icon";
-import { FormControl } from "~/components/ui/form-control";
+import { FormControl, FormItem, FormLabel } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import {
   Select,
@@ -59,36 +59,40 @@ export const GenderSelector = (props: GenderSelectorProps) => {
 
   return (
     <>
-      <FormControl
-        label={
-          <>
-            <Icon name="PersonStanding" /> Gender
-          </>
-        }
-      >
-        <Select
-          value={selectedGender}
-          onValueChange={(v) => setSelectedGender(v as AllowedGenders)}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Please specify your gender" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="not-specified">Prefer not to specify</SelectItem>
-            <SelectItem value="male">Male</SelectItem>
-            <SelectItem value="female">Female</SelectItem>
-            <SelectItem value="non-binary">Non binary</SelectItem>
-            <SelectItem value="other">Other</SelectItem>
-          </SelectContent>
-        </Select>
-      </FormControl>
-      {selectedGender === "other" && (
-        <FormControl label="Please specify">
-          <Input
-            value={customGender}
-            onChange={(e) => setCustomGender(e.target.value)}
-          />
+      <FormItem>
+        <FormLabel>
+          <Icon name="PersonStanding" /> Gender
+        </FormLabel>
+        <FormControl>
+          <Select
+            value={selectedGender}
+            onValueChange={(v) => setSelectedGender(v as AllowedGenders)}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Please specify your gender" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="not-specified">
+                Prefer not to specify
+              </SelectItem>
+              <SelectItem value="male">Male</SelectItem>
+              <SelectItem value="female">Female</SelectItem>
+              <SelectItem value="non-binary">Non binary</SelectItem>
+              <SelectItem value="other">Other</SelectItem>
+            </SelectContent>
+          </Select>
         </FormControl>
+      </FormItem>
+      {selectedGender === "other" && (
+        <FormItem>
+          <FormLabel>Please specify</FormLabel>
+          <FormControl>
+            <Input
+              value={customGender}
+              onChange={(e) => setCustomGender(e.target.value)}
+            />
+          </FormControl>
+        </FormItem>
       )}
     </>
   );

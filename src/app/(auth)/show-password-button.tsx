@@ -11,7 +11,7 @@ export const ShowPasswordButton = ({
 }) => {
   return (
     <Button
-      size="square"
+      size="icon"
       variant="ghost"
       className="-mr-4"
       type="button"

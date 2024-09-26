@@ -10,7 +10,7 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import * as React from "react";
 import { Button } from "~/components/ui/button";
-import { Divider } from "~/components/ui/divider";
+import { Separator } from "~/components/ui/separator";
 import { loginWithProvider } from "./actions";
 
 const AuthLayout = function ({
@@ -34,7 +34,7 @@ const AuthLayout = function ({
         </div>
         <div className="col-span-2 sm:col-span-1 p-4 sm:-order-1">
           {children}
-          <Divider>or</Divider>
+          <Separator className="my-4" orientation="horizontal" />
           <form action={loginWithProvider} className="flex gap-2 mb-2">
             <input type="hidden" name="callbackUrl" value={callbackUrl} />
             <Button
@@ -64,11 +64,11 @@ const AuthLayout = function ({
           </form>
 
           {path.includes("signin") ? (
-            <Button asChild variant="ghost" size="full" className="underline">
+            <Button asChild variant="ghost" className="underline w-full">
               <Link href="/signup">Dont have an account?</Link>
             </Button>
           ) : (
-            <Button asChild variant="ghost" size="full" className="underline">
+            <Button asChild variant="ghost" className="underline w-full">
               <Link href="/signin">Already have an account?</Link>
             </Button>
           )}

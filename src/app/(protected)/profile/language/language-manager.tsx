@@ -54,7 +54,7 @@ export const LanguageManager = (props: LanguageManagerProps) => {
         <div className="text-gray-500">No languages added</div>
       )}
       <Button
-        size="full"
+        className="w-full"
         onClick={createLanguage}
         disabled={languages.length >= 5}
       >
@@ -114,7 +114,11 @@ const LanguageRow = (props: {
           <SelectItem value="A1">A1</SelectItem>
         </SelectContent>
       </Select>
-      <Button variant="error" onClick={() => props.delete(props.language.id)}>
+      <Button
+        variant="destructive"
+        size='icon'
+        onClick={() => props.delete(props.language.id)}
+      >
         <Icon name="Trash" />
       </Button>
     </div>

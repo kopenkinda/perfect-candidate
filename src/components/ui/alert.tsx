@@ -1,54 +1,64 @@
-import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { cn } from "~/lib/utils";
-import { Icon } from "./app-icon";
 
-export type AlertVariant = "info" | "success" | "warning" | "error";
+// import { Icon } from "./app-icon";
+// {variant === undefined && <Icon name="Info" />}
+//         {variant === "info" && <Icon name="Info" />}
+//         {variant === "success" && <Icon name="CircleCheck" />}
+//         {variant === "warning" && <Icon name="TriangleAlert" />}
+//         {variant === "error" && <Icon name="CircleX" />}
 
-const AlertVariantMap: Record<AlertVariant, string> = {
-  info: "alert-info",
-  success: "alert-success",
-  warning: "alert-warning",
-  error: "alert-error",
-};
-
-export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: AlertVariant;
-  asChild?: boolean;
-}
-
-export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
-  ({ className, variant, asChild, children, ...props }, ref) => {
-    const Comp = asChild ? Slot : "div";
-    return (
-      <Comp
-        className={cn("alert", variant && AlertVariantMap[variant], className)}
-        {...props}
-        ref={ref}
-      >
-        {variant === undefined && <Icon name="Info" />}
-        {variant === "info" && <Icon name="Info" />}
-        {variant === "success" && <Icon name="CircleCheck" />}
-        {variant === "warning" && <Icon name="TriangleAlert" />}
-        {variant === "error" && <Icon name="CircleX" />}
-        {children}
-      </Comp>
-    );
+const alertVariants = cva(
+  "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
+  {
+    variants: {
+      variant: {
+        default: "bg-background text-foreground",
+        destructive:
+          "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
   }
 );
-
+const Alert = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
+>(({ className, variant, ...props }, ref) => (
+  <div
+    ref={ref}
+    role="alert"
+    className={cn(alertVariants({ variant }), className)}
+    {...props}
+  />
+));
 Alert.displayName = "Alert";
 
-export interface AlertActionsProps
-  extends React.HTMLAttributes<HTMLDivElement> {
-  asChild?: boolean;
-}
+const AlertTitle = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLHeadingElement>
+>(({ className, ...props }, ref) => (
+  <h5
+    ref={ref}
+    className={cn("mb-1 font-medium leading-none tracking-tight", className)}
+    {...props}
+  />
+));
+AlertTitle.displayName = "AlertTitle";
 
-export const AlertActions = React.forwardRef<HTMLDivElement, AlertActionsProps>(
-  ({ asChild, ...props }, ref) => {
-    const Comp = asChild ? Slot : "div";
-    return <Comp {...props} ref={ref} />;
-  }
-);
+const AlertDescription = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("text-sm [&_p]:leading-relaxed", className)}
+    {...props}
+  />
+));
+AlertDescription.displayName = "AlertDescription";
 
-AlertActions.displayName = "AlertActions";
+export { Alert, AlertDescription, AlertTitle };

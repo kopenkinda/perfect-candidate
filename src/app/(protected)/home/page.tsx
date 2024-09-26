@@ -1,5 +1,5 @@
-const Homepage = () => {
-  return <p></p>;
-};
-
-export default Homepage;
+export default async function HomePage() {
+  return <div>
+    a
+  </div>
+}

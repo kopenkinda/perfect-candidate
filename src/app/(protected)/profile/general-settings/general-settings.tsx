@@ -1,6 +1,5 @@
 import { auth } from "~/auth";
-import { Card, CardContent, CardTitle } from "~/components/ui/card";
-import { Divider } from "~/components/ui/divider";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { getUserSettings } from "~/lib/db/settings";
 import { getUserById } from "~/lib/db/user";
 import { UserInformationForm } from "./user-information-form";
@@ -20,20 +19,18 @@ export const GeneralSettings = async ({
 
   return (
     <Card className={className}>
-      <CardContent>
+      <CardHeader>
         <CardTitle>General settings</CardTitle>
-        <Divider className="my-0" align="start">
-          Account information
-        </Divider>
+      </CardHeader>
+      <CardContent>
+        <b className='mb-2 inline-block'>Account information</b>
         <UserInformationForm
           info={{
             name: userInfo.name ?? "",
             email: userInfo.email ?? "",
           }}
         />
-        <Divider className="mb-0" align="start">
-          Personal information
-        </Divider>
+        <b className='mb-2 mt-4 inline-block'>Personal information</b>
         <UserSettings settings={settings} />
       </CardContent>
     </Card>

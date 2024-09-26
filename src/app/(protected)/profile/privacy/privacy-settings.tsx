@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardHeader,
   CardTitle,
 } from "~/components/ui/card";
 import { PrivacyToggle } from "./privacy-toggle";
@@ -20,11 +21,13 @@ export const PrivacySettings = async ({
   const settings = await getUserPrivacySettings(session.user.id);
   return (
     <Card className={className}>
-      <CardContent>
+      <CardHeader>
         <CardTitle>Privacy settings</CardTitle>
         <CardDescription>
           Manage what information you share in your CV.
         </CardDescription>
+      </CardHeader>
+      <CardContent>
         <PrivacyToggle
           icon="Calendar"
           label="Share my age"

@@ -2,19 +2,19 @@
 
 import type { UserSkill, UserSkillType } from "@prisma/client";
 import { useDebounce } from "@uidotdev/usehooks";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Icon } from "~/components/ui/app-icon";
 import { Button } from "~/components/ui/button";
+import { FormControl, FormItem, FormLabel } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import { zodError } from "~/lib/utils";
+import { UserSkillSchema } from "./schemas";
 import {
   createSkillAction,
   deleteSkillAction,
   updateSkillAction,
 } from "./skills.actions";
-import { useRouter } from "next/navigation";
-import { UserSkillSchema } from "./schemas";
-import { FormControl } from "~/components/ui/form-control";
-import { zodError } from "~/lib/utils";
 
 export interface SkillsManagerProps {
   skills: UserSkill[];
@@ -53,7 +53,11 @@ export const SkillsManager = ({ skills, ...props }: SkillsManagerProps) => {
       {skills.length === 0 && (
         <div className="text-gray-500">No skills added</div>
       )}
-      <Button size="full" onClick={createSkill} disabled={skills.length >= 15}>
+      <Button
+        className="w-full"
+        onClick={createSkill}
+        disabled={skills.length >= 15}
+      >
         <Icon name="Plus" />
       </Button>
     </div>
@@ -89,14 +93,16 @@ const SkillRow = (props: {
 
   return (
     <div className="flex gap-2">
-      <FormControl error={error ?? undefined} className="grow">
-        <Input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder={props.example}
-        />
-      </FormControl>
-      <Button variant="error" onClick={() => props.delete(props.skill.id)}>
+      <Input
+        placeholder={props.example}
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <Button
+        variant="destructive"
+        size='icon'
+        onClick={() => props.delete(props.skill.id)}
+      >
         <Icon name="Trash" />
       </Button>
     </div>

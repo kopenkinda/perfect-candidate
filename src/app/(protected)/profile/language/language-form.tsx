@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardHeader,
   CardTitle,
 } from "~/components/ui/card";
 import { getUserLanguages } from "~/lib/db/language";
@@ -20,9 +21,11 @@ export const LanguageForm = async ({ className }: LanguageFormProps) => {
   const languages = await getUserLanguages(session.id);
   return (
     <Card className={className}>
-      <CardContent>
+      <CardHeader>
         <CardTitle>Languages</CardTitle>
         <CardDescription>Manage the languages you speak.</CardDescription>
+      </CardHeader>
+      <CardContent>
         <LanguageManager languages={languages} />
       </CardContent>
     </Card>

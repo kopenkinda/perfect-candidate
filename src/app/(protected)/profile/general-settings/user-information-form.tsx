@@ -1,17 +1,24 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Icon } from "~/components/ui/app-icon";
+import { Button } from "~/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
+import { updateUserInformationAction } from "./general-settings.actions";
 import {
   UserInformationForm as TUserInformationForm,
   UserInformationSchema,
 } from "./schemas";
-import { FormControl } from "~/components/ui/form-control";
-import { Input } from "~/components/ui/input";
-import { Icon } from "~/components/ui/app-icon";
-import { Button } from "~/components/ui/button";
-import { updateUserInformationAction } from "./general-settings.actions";
-import { useState } from "react";
 
 export interface UserInformationFormProps {
   info: TUserInformationForm;
@@ -50,43 +57,51 @@ export const UserInformationForm = (props: UserInformationFormProps) => {
   };
 
   return (
-    <form
-      onSubmit={form.handleSubmit(onSubmit)}
-      className="grid grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)_auto] gap-2"
-    >
-      <FormControl
-        label={
-          <>
-            <Icon name="AtSign" />
-            Email
-          </>
-        }
-        error={form.formState.errors.email?.message}
-        className="col-span-3 md:col-span-1"
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="grid grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)_auto] gap-2 items-end"
       >
-        <Input {...form.register("email")} />
-      </FormControl>
-      <FormControl
-        label={
-          <>
-            <Icon name="User" />
-            Name
-          </>
-        }
-        error={form.formState.errors.name?.message}
-        className="col-span-3 md:col-span-1"
-      >
-        <Input
-          {...form.register("name")}
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                <Icon name="AtSign" />
+                Email
+              </FormLabel>
+              <FormControl>
+                <Input placeholder="Ex: john@example.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </FormControl>
-      <Button
-        disabled={updated}
-        type="submit"
-        className="col-span-3 md:col-span-1 md:mt-9"
-      >
-        <Icon name={updated ? "Check" : "Save"} />
-      </Button>
-    </form>
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                <Icon name="User" />
+                Name
+              </FormLabel>
+              <FormControl>
+                <Input placeholder="Ex: John Doe" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button
+          disabled={updated}
+          type="submit"
+          className="col-span-3 md:col-span-1"
+        >
+          <Icon name={updated ? "Check" : "Save"} />
+        </Button>
+      </form>
+    </Form>
   );
 };

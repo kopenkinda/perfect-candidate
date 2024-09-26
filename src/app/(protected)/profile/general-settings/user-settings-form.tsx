@@ -3,14 +3,21 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserSettings as TUserSettings } from "@prisma/client";
 import { useForm } from "react-hook-form";
-import { Alert, AlertActions } from "~/components/ui/alert";
+import { Alert } from "~/components/ui/alert";
 import { GenderSelector } from "./gender-selector";
 import { UserSettingsForm, UserSettingsSchema } from "./schemas";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/app-icon";
 import { updateUserSettingsAction } from "./general-settings.actions";
-import { FormControl } from "~/components/ui/form-control";
 import { Input } from "~/components/ui/input";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/components/ui/form";
 
 export interface UserSettingsProps {
   settings: TUserSettings;
@@ -21,8 +28,8 @@ export const UserSettings = (props: UserSettingsProps) => {
     defaultValues: {
       gender: props.settings.sex,
       age: props.settings.age,
-      phone: props.settings.phone,
-      location: props.settings.location,
+      phone: props.settings.phone ?? "",
+      location: props.settings.location ?? "",
     },
     mode: "onChange",
     resolver: zodResolver(UserSettingsSchema),
@@ -47,59 +54,76 @@ export const UserSettings = (props: UserSettingsProps) => {
   };
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)}>
-      <div className="grid grid-cols-3 gap-2">
-        <FormControl
-          label={
-            <>
-              <Icon name="Calendar" />
-              Age
-            </>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="grid grid-cols-3 gap-2">
+          <FormField
+            control={form.control}
+            name="age"
+            render={({ field }) => (
+              <FormItem className="col-span-3 md:col-span-1">
+                <FormLabel>
+                  <Icon name="Calendar" />
+                  Age
+                </FormLabel>
+                <FormControl>
+                  <Input type="number" min="1" max="110" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem className="col-span-3 md:col-span-2">
+                <FormLabel>
+                  <Icon name="Phone" />
+                  Phone
+                </FormLabel>
+                <FormControl>
+                  <Input type="tel" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <FormField
+          control={form.control}
+          name="location"
+          render={({ field }) => (
+            <FormItem className="col-span-3 md:col-span-2">
+              <FormLabel>
+                <>
+                  <Icon name="MapPin" />
+                  Location
+                </>
+              </FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <GenderSelector
+          gender={props.settings.sex}
+          onValueChange={(g) =>
+            form.setValue("gender", g, { shouldDirty: true })
           }
-          error={form.formState.errors.age?.message}
-          className="col-span-3 md:col-span-1"
-        >
-          <Input type="number" min="1" max="110" {...form.register("age")} />
-        </FormControl>
-        <FormControl
-          label={
-            <>
-              <Icon name="Phone" />
-              Phone
-            </>
-          }
-          error={form.formState.errors.phone?.message}
-          className="col-span-3 md:col-span-2"
-        >
-          <Input type="tel" {...form.register("phone")} />
-        </FormControl>
-      </div>
-      <FormControl
-        label={
-          <>
-            <Icon name="MapPin" />
-            Location
-          </>
-        }
-        error={form.formState.errors.location?.message}
-      >
-        <Input type="text" {...form.register("location")} />
-      </FormControl>
-      <GenderSelector
-        gender={props.settings.sex}
-        onValueChange={(g) => form.setValue("gender", g, { shouldDirty: true })}
-      />
-      {modifiedData && (
-        <Alert variant="warning" className="mt-2">
-          You have unsaved changes
-          <AlertActions>
+        />
+        {modifiedData && (
+          <Alert className="mt-2">
+            You have unsaved changes
             <Button size="sm">
               <Icon name="Save" />
               save
             </Button>
-          </AlertActions>
-        </Alert>
-      )}
-    </form>
+          </Alert>
+        )}
+      </form>
+    </Form>
   );
 };
