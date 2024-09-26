@@ -60,7 +60,7 @@ export const UserInformationForm = (props: UserInformationFormProps) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grid grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)_auto] gap-2 items-end"
+        className="grid gap-0 lg:grid-cols-[minmax(0,_1fr)_minmax(0,_1fr)_auto] lg:gap-2 lg:items-end"
       >
         <FormField
           control={form.control}
@@ -97,7 +97,6 @@ export const UserInformationForm = (props: UserInformationFormProps) => {
         <Button
           disabled={updated}
           type="submit"
-          className="col-span-3 md:col-span-1"
         >
           <Icon name={updated ? "Check" : "Save"} />
         </Button>

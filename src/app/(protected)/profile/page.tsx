@@ -12,7 +12,7 @@ import { SkillsForm } from "./skills/skills-form";
 export default function ProfilePage() {
   return (
     <div className="grid lg:grid-cols-12">
-      <AppSection className="border-r border-b lg:col-span-6">
+      <AppSection className="lg:border-r border-b lg:col-span-6 col-span-12">
         <AppSectionHeader>
           <AppSectionTitle>General settings</AppSectionTitle>
           <AppSectionDescription>
@@ -21,7 +21,7 @@ export default function ProfilePage() {
         </AppSectionHeader>
         <GeneralSettings />
       </AppSection>
-      <AppSection className="border-b lg:col-span-6">
+      <AppSection className="border-b lg:col-span-6 col-span-12">
         <AppSectionHeader>
           <AppSectionTitle>Privacy settings</AppSectionTitle>
           <AppSectionDescription>
@@ -30,7 +30,7 @@ export default function ProfilePage() {
         </AppSectionHeader>
         <PrivacySettings />
       </AppSection>
-      <AppSection className="border-r border-b lg:col-span-5">
+      <AppSection className="lg:border-r border-b lg:col-span-5 col-span-12">
         <AppSectionHeader>
           <AppSectionTitle>Languages</AppSectionTitle>
           <AppSectionDescription>
@@ -39,7 +39,7 @@ export default function ProfilePage() {
         </AppSectionHeader>
         <LanguageForm />
       </AppSection>
-      <AppSection className="border-r border-b lg:col-span-7">
+      <AppSection className="lg:border-r border-b lg:col-span-7 col-span-12">
         <AppSectionHeader>
           <AppSectionTitle>Skills</AppSectionTitle>
           <AppSectionDescription>
@@ -48,7 +48,7 @@ export default function ProfilePage() {
         </AppSectionHeader>
         <SkillsForm />
       </AppSection>
-      <AppSection className="lg:col-span-12 border-b">
+      <AppSection className="lg:col-span-12 border-b col-span-12">
         <AppSectionHeader>
           <AppSectionTitle>Work experience</AppSectionTitle>
           <AppSectionDescription>

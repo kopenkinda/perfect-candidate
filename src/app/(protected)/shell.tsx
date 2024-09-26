@@ -12,8 +12,8 @@ export function ApplicationShell({
 }: Readonly<{ children: React.ReactNode }>) {
   const pathname = usePathname();
   return (
-    <div className="flex">
-      <aside className="w-[theme('size.52')] border-r h-[calc(100svh-theme('size.16'))] sticky top-[theme('size.16')] flex flex-col">
+    <div className="flex flex-col lg:flex-row">
+      <aside className="bg-background overflow-x-auto lg:w-[theme('size.52')] lg:border-r lg:border-b-0 border-b lg:h-[calc(100svh-theme('size.16'))] sticky top-[theme('size.16')] flex lg:flex-col">
         <SidebarLink
           pathname={pathname}
           href="/home"
@@ -27,11 +27,11 @@ export function ApplicationShell({
           text="Profile"
         />
         <SidebarLink pathname={pathname} href="/cv" icon="Files" text="CV's" />
-        <div className="mt-auto border-t">
+        <div className="lg:mt-auto lg:border-t border-l lg:border-l-0 ml-2 lg:ml-0">
           <FeedbackButton />
         </div>
       </aside>
-      <div className="w-[calc(100vw-theme('size.52'))]">{children}</div>
+      <div className="lg:w-[calc(100vw-theme('size.52'))]">{children}</div>
     </div>
   );
 }
@@ -52,7 +52,7 @@ const SidebarLink = ({
   return (
     <Button
       className={cn("rounded-none justify-start items-center gap-2", {
-        "w-[100%+1px] -mr-px": isActive,
+        "lg:mb-0 lg:w-[calc(100%+1px)] lg:-mr-px": isActive,
       })}
       variant={isActive ? "secondary" : "ghost"}
       asChild
