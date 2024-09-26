@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Alert, AlertTitle } from "~/components/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Icon } from "~/components/ui/app-icon";
 import { Button } from "~/components/ui/button";
 import {
@@ -18,6 +18,8 @@ import { Input } from "~/components/ui/input";
 import type { ActionResult, NonExclusiveString } from "~/lib/actions.utils";
 import { login } from "../actions";
 import { SignInFormSchema, SignInFormValues } from "../schemas";
+import Link from "next/link";
+import { ShowPasswordButton } from "../show-password-button";
 
 export default function SignInPage({
   searchParams: { callbackUrl },
@@ -48,7 +50,11 @@ export default function SignInPage({
       >
         {result?.success === false && (
           <Alert variant="destructive" className="mb-2">
-            <AlertTitle>{result.error ?? "Error logging in"}</AlertTitle>
+            <Icon name="CircleX" />
+            <AlertTitle>Oops!</AlertTitle>
+            <AlertDescription>
+              {result.error ?? "Error signing in"}
+            </AlertDescription>
           </Alert>
         )}
         <h1 className="text-center font-bold">Sign in</h1>
@@ -72,19 +78,27 @@ export default function SignInPage({
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>
+              <FormLabel className="flex">
                 <Icon name="Lock" /> Password
+                <Link
+                  href="/forgot-password"
+                  className="ml-auto inline-block text-sm underline"
+                >
+                  Forgot your password?
+                </Link>
               </FormLabel>
               <FormControl>
-                <Input
-                  placeholder="********"
-                  {...field}
-                  type={showPassword ? "text" : "password"}
-                />
-                {/* <ShowPasswordButton
-                  control={setShowPassword}
-                  showing={showPassword}
-                /> */}
+                <div className="relative">
+                  <Input
+                    placeholder="********"
+                    {...field}
+                    type={showPassword ? "text" : "password"}
+                  />
+                  <ShowPasswordButton
+                    control={setShowPassword}
+                    showing={showPassword}
+                  />
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>

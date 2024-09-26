@@ -28,7 +28,7 @@ export const register = async (
   if (!validation.success) {
     return error(validation.error.message);
   }
-  const hashedPassword = await hashPassword(data.password.base);
+  const hashedPassword = await hashPassword(data.password);
   const userExists = await getUserByEmail(data.email);
   if (userExists) {
     return error("This email has already been used");

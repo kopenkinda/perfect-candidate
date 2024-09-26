@@ -13,7 +13,7 @@ export const ShowPasswordButton = ({
     <Button
       size="icon"
       variant="ghost"
-      className="-mr-4"
+      className="absolute right-0 top-0"
       type="button"
       onClick={() => control((showing) => !showing)}
     >
