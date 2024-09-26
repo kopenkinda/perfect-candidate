@@ -56,7 +56,7 @@ const SidebarLink = ({
       className={cn("rounded-none justify-start items-center gap-2", {
         "w-[100%+1px] -mr-px": isActive,
       })}
-      variant={isActive ? "default" : "ghost"}
+      variant={isActive ? "secondary" : "ghost"}
       asChild
     >
       <Link href={href}>
