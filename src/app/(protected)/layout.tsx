@@ -6,7 +6,7 @@ export default async function ApplicationLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ApplicationShell>
-      <UserProfileCompletion className="col-span-7 md:col-span-5 mb-4" />
+      <UserProfileCompletion />
       {children}
     </ApplicationShell>
   );

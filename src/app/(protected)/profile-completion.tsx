@@ -1,32 +1,69 @@
+"use client";
+
 import Link from "next/link";
-import { user } from "~/auth";
-import { Alert, AlertTitle } from "~/components/ui/alert";
+import { Icon } from "~/components/ui/app-icon";
 import { Button } from "~/components/ui/button";
+import { useUser } from "~/hooks/use-user";
 import { getUserProfileCompletion } from "~/lib/db/user";
+import { cn } from "~/lib/utils";
+import {
+  AppSection,
+  AppSectionDescription,
+  AppSectionHeader,
+  AppSectionTitle,
+} from "./app-section";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export interface UserProfileCompletionProps {
   className?: string;
 }
 
-export const UserProfileCompletion = async (
-  props: UserProfileCompletionProps
-) => {
-  const session = await user();
+export const UserProfileCompletion = (props: UserProfileCompletionProps) => {
+  const session = useUser();
+  const pathname = usePathname();
+  const [completion, setCompletion] = useState<number>(0);
+  useEffect(() => {
+    if (pathname === "/profile" || !session) {
+      return;
+    }
+    getUserProfileCompletion(session.id)
+      .then((completion) => {
+        setCompletion(completion);
+      })
+      .catch(console.error);
+  }, [completion, session, pathname]);
+
+  if (pathname === "/profile") {
+    return null;
+  }
+
   if (!session) {
     return null;
   }
-  const completion = await getUserProfileCompletion(session.id);
 
   if (completion === 100) {
     return null;
   }
 
   return (
-    <Alert className={props.className}>
-      <AlertTitle>Your profile is incomplete</AlertTitle>
-      <Button size="sm" asChild>
-        <Link href="/profile">Provide information</Link>
+    <AppSection
+      className={cn(
+        "border-b flex flex-row items-center justify-between pr-6",
+        props.className
+      )}
+    >
+      <AppSectionHeader className="pb-6">
+        <AppSectionTitle>Your profile is incomplete</AppSectionTitle>
+        <AppSectionDescription>
+          Complete your profile to get the most out of our platform.
+        </AppSectionDescription>
+      </AppSectionHeader>
+      <Button asChild variant="secondary">
+        <Link href="/profile" className="flex items-center gap-2">
+          Complete profile <Icon name="ArrowRight" />
+        </Link>
       </Button>
-    </Alert>
+    </AppSection>
   );
 };

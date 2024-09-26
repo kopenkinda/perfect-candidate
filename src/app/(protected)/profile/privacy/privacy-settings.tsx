@@ -1,33 +1,17 @@
 import { auth } from "~/auth";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
-import { PrivacyToggle } from "./privacy-toggle";
 import { getUserPrivacySettings } from "~/lib/db/privacy";
+import { AppSectionContent } from "../../app-section";
+import { PrivacyToggle } from "./privacy-toggle";
 
-export const PrivacySettings = async ({
-  className,
-}: {
-  className?: string;
-}) => {
+export const PrivacySettings = async () => {
   const session = await auth();
   if (!session) {
     return null;
   }
   const settings = await getUserPrivacySettings(session.user.id);
   return (
-    <Card className={className}>
-      <CardHeader>
-        <CardTitle>Privacy settings</CardTitle>
-        <CardDescription>
-          Manage what information you share in your CV.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
+    <>
+      <AppSectionContent className="space-y-2">
         <PrivacyToggle
           icon="Calendar"
           label="Share my age"
@@ -58,7 +42,7 @@ export const PrivacySettings = async ({
           pkey="sex"
           checked={settings.sex}
         />
-      </CardContent>
-    </Card>
+      </AppSectionContent>
+    </>
   );
 };

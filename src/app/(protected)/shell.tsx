@@ -31,9 +31,7 @@ export function ApplicationShell({
           <FeedbackButton />
         </div>
       </aside>
-      <div className="w-[calc(100vw-theme('size.52'))] px-4 pt-2 pb-4">
-        {children}
-      </div>
+      <div className="w-[calc(100vw-theme('size.52'))]">{children}</div>
     </div>
   );
 }

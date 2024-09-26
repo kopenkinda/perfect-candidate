@@ -1,9 +1,9 @@
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardTitle,
-} from "~/components/ui/card";
+  AppSection,
+  AppSectionDescription,
+  AppSectionHeader,
+  AppSectionTitle,
+} from "../app-section";
 import { GeneralSettings } from "./general-settings/general-settings";
 import { LanguageForm } from "./language/language-form";
 import { PrivacySettings } from "./privacy/privacy-settings";
@@ -11,23 +11,51 @@ import { SkillsForm } from "./skills/skills-form";
 
 export default function ProfilePage() {
   return (
-    <div className="columns-2 [&>div>*]:mb-2 [&>*]:break-inside-avoid">
-      <div>
+    <div className="grid lg:grid-cols-12">
+      <AppSection className="border-r border-b lg:col-span-6">
+        <AppSectionHeader>
+          <AppSectionTitle>General settings</AppSectionTitle>
+          <AppSectionDescription>
+            Manage your general settings.
+          </AppSectionDescription>
+        </AppSectionHeader>
         <GeneralSettings />
+      </AppSection>
+      <AppSection className="border-b lg:col-span-6">
+        <AppSectionHeader>
+          <AppSectionTitle>Privacy settings</AppSectionTitle>
+          <AppSectionDescription>
+            Manage what information you share in your CV.
+          </AppSectionDescription>
+        </AppSectionHeader>
         <PrivacySettings />
-      </div>
-      <div>
+      </AppSection>
+      <AppSection className="border-r border-b lg:col-span-5">
+        <AppSectionHeader>
+          <AppSectionTitle>Languages</AppSectionTitle>
+          <AppSectionDescription>
+            Manage the languages you speak.
+          </AppSectionDescription>
+        </AppSectionHeader>
         <LanguageForm />
+      </AppSection>
+      <AppSection className="border-r border-b lg:col-span-7">
+        <AppSectionHeader>
+          <AppSectionTitle>Skills</AppSectionTitle>
+          <AppSectionDescription>
+            Manage your skills and expertise.
+          </AppSectionDescription>
+        </AppSectionHeader>
         <SkillsForm />
-      </div>
-      <Card className='[column-all]'>
-        <CardContent>
-          <CardTitle>Work experience</CardTitle>
-          <CardDescription>
+      </AppSection>
+      <AppSection className="lg:col-span-12 border-b">
+        <AppSectionHeader>
+          <AppSectionTitle>Work experience</AppSectionTitle>
+          <AppSectionDescription>
             Add your work experience to your CV.
-          </CardDescription>
-        </CardContent>
-      </Card>
+          </AppSectionDescription>
+        </AppSectionHeader>
+      </AppSection>
     </div>
   );
 }

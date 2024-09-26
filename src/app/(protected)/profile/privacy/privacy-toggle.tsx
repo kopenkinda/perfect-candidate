@@ -27,7 +27,7 @@ export const PrivacyToggle = (props: PrivacyToggleProps) => {
         <Icon name={props.icon} />
         {props.label}
       </span>
-      <Toggle pressed={checked} onPressedChange={onChange}>
+      <Toggle pressed={checked} onPressedChange={onChange} variant="outline">
         <Icon name={checked ? "Check" : "X"} />
       </Toggle>
     </div>

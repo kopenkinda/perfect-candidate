@@ -1,13 +1,7 @@
 import { user } from "~/auth";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { getUserSkills } from "~/lib/db/skills";
+import { AppSectionContent } from "../../app-section";
 import { SkillsManager } from "./skills-manager";
 
 export interface SkillManagerProps {
@@ -21,17 +15,19 @@ export const SkillsForm = async (props: SkillManagerProps) => {
   }
   const data = await getUserSkills(session.id);
   return (
-    <Card className={props.className}>
-      <CardHeader>
-        <CardTitle>Skills</CardTitle>
-        <CardDescription>Manage your skills and expertise.</CardDescription>
-      </CardHeader>
-      <CardContent>
+    <>
+      <AppSectionContent className={props.className}>
         <Tabs defaultValue="hard">
           <TabsList className="mb-2 w-full">
-            <TabsTrigger value="hard">Hard</TabsTrigger>
-            <TabsTrigger value="soft">Soft</TabsTrigger>
-            <TabsTrigger value="other">Other</TabsTrigger>
+            <TabsTrigger value="hard" className="grow">
+              Hard
+            </TabsTrigger>
+            <TabsTrigger value="soft" className="grow">
+              Soft
+            </TabsTrigger>
+            <TabsTrigger value="other" className="grow">
+              Other
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="hard">
             <SkillsManager
@@ -55,7 +51,7 @@ export const SkillsForm = async (props: SkillManagerProps) => {
             />
           </TabsContent>
         </Tabs>
-      </CardContent>
-    </Card>
+      </AppSectionContent>
+    </>
   );
 };

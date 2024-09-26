@@ -8,13 +8,8 @@
   }
 }
 
-html {
-  background-image: url("/images/graph-paper.svg");
-  background-size: 10%;
-  background-repeat: repeat;
-}
-
-html, body {
+html,
+body {
   overscroll-behavior-y: none;
 }
 
