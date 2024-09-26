@@ -31,6 +31,13 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <html lang="en" suppressHydrationWarning>
+        <head>
+          <link
+            rel="shortcut icon"
+            href="/images/logo.svg"
+            type="image/x-icon"
+          />
+        </head>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
