@@ -99,8 +99,8 @@ export default function SignupPage({
                 <div className="relative">
                   <Input
                     placeholder="********"
-                    {...field}
                     type={showPassword ? "text" : "password"}
+                    {...field}
                   />
                   <ShowPasswordButton
                     showing={showPassword}
@@ -134,14 +134,14 @@ export default function SignupPage({
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                <Icon name="Lock" /> Repeat Password
+                <Icon name="LockKeyhole" /> Repeat Password
               </FormLabel>
               <FormControl>
                 <div className="relative">
                   <Input
                     placeholder="********"
-                    {...field}
                     type={showPasswordConfirmation ? "text" : "password"}
+                    {...field}
                   />
                   <ShowPasswordButton
                     showing={showPasswordConfirmation}

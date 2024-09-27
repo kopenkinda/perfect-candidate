@@ -1,6 +1,6 @@
 "use server";
 
-import bcrypt from "bcryptjs";
+import { hashSync } from "bcrypt-edge";
 import { AuthError } from "next-auth";
 import { naSignIn } from "~/auth";
 import { routes } from "~/auth/routes";
@@ -28,7 +28,7 @@ export const register = async (
   if (!validation.success) {
     return error(validation.error.message);
   }
-  const hashedPassword = await hashPassword(data.password);
+  const hashedPassword = hashPassword(data.password);
   const userExists = await getUserByEmail(data.email);
   if (userExists) {
     return error("This email has already been used");
@@ -98,6 +98,6 @@ export const loginWithProvider = async (
   return success(null);
 };
 
-const hashPassword = async (password: string) => {
-  return bcrypt.hash(password, 10);
+const hashPassword = (password: string) => {
+  return hashSync(password, 10);
 };

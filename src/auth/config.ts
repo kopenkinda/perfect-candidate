@@ -1,4 +1,4 @@
-import bcrypt from "bcryptjs";
+import { compareSync } from "bcrypt-edge";
 import { AuthError, type DefaultSession, type NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Github from "next-auth/providers/github";
@@ -40,7 +40,7 @@ const credentials = Credentials({
       if (user.password == null) {
         throw new PasswordNotSetException();
       }
-      const passwordsMatch = await bcrypt.compare(password, user.password);
+      const passwordsMatch = compareSync(password, user.password);
       if (passwordsMatch) {
         return { id: user.id, email: user.email, credits: user.credits };
       }
