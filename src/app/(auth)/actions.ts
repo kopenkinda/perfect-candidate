@@ -10,8 +10,7 @@ import {
   NonExclusiveString,
   success,
 } from "~/lib/actions.utils";
-import { db } from "~/lib/db";
-import { getUserByEmail } from "~/lib/db/user";
+import { createUser, getUserByEmail } from "~/lib/db/user";
 import {
   SignInFormSchema,
   SignInFormValues,
@@ -33,11 +32,9 @@ export const register = async (
   if (userExists) {
     return error("This email has already been used");
   }
-  await db.user.create({
-    data: {
-      email: data.email,
-      password: hashedPassword,
-    },
+  await createUser({
+    email: data.email,
+    password: hashedPassword,
   });
   return success(null);
 };

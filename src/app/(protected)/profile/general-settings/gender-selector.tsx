@@ -1,6 +1,6 @@
 "use client";
 
-import { UserSettings } from "@prisma/client";
+import type { UserSettings } from "~/drizzle/schema";
 import { useEffect, useState } from "react";
 import { Icon } from "~/components/ui/app-icon";
 import { FormControl, FormItem, FormLabel } from "~/components/ui/form";

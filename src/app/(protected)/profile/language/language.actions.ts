@@ -1,6 +1,6 @@
 "use server";
 
-import { UserLanguageLevel } from "@prisma/client";
+import { UserLanguageLevel } from "~/drizzle/schema";
 import { user } from "~/auth";
 import {
   countUserLanguages,

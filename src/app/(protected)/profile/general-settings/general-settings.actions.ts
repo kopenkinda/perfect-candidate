@@ -1,6 +1,6 @@
 "use server";
 
-import { User, UserSettings } from "@prisma/client";
+import { User, UserSettings } from "~/drizzle/schema";
 import { auth } from "~/auth";
 import { ModifiableUserSettings, updateUserSettings } from "~/lib/db/settings";
 import {

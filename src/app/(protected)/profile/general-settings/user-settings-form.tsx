@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UserSettings as TUserSettings } from "@prisma/client";
+import { UserSettings as TUserSettings } from "~/drizzle/schema";
 import { useForm } from "react-hook-form";
 import { Alert } from "~/components/ui/alert";
 import { GenderSelector } from "./gender-selector";

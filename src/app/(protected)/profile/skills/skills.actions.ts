@@ -1,6 +1,6 @@
 "use server";
 
-import { UserSkillType } from "@prisma/client";
+import { UserSkillType } from "~/drizzle/schema";
 import { user } from "~/auth";
 import {
   addUserSkill,

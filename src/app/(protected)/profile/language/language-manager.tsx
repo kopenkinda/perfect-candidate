@@ -1,6 +1,6 @@
 "use client";
 
-import type { UserLanguage } from "@prisma/client";
+import type { UserLanguage } from "~/drizzle/schema";
 import { useEffect, useState } from "react";
 import { Icon } from "~/components/ui/app-icon";
 import { Button } from "~/components/ui/button";

@@ -1,6 +1,6 @@
 "use client";
 
-import type { UserSkill, UserSkillType } from "@prisma/client";
+import type { UserSkill, UserSkillType } from "~/drizzle/schema";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

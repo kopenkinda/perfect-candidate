@@ -24,6 +24,16 @@ export const getUserById = async (id: string) => {
   });
 };
 
+export const createUser = async (data: { email: string; password: string }) => {
+  const [created] = await db
+    .insert(user)
+    .values({
+      ...data,
+    })
+    .returning();
+  return created;
+};
+
 export type ModifiableUserInformation = keyof Omit<
   User,
   UnmodifiableTableProperties | "image"
