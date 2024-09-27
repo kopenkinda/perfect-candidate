@@ -49,9 +49,9 @@ const credentials = Credentials({
   },
 });
 
-const github = Github({ allowDangerousEmailAccountLinking: true });
-const google = Google({ allowDangerousEmailAccountLinking: true });
-const linkedin = Linkedin({ allowDangerousEmailAccountLinking: true });
+const github = Github({ allowDangerousEmailAccountLinking: false });
+const google = Google({ allowDangerousEmailAccountLinking: false });
+const linkedin = Linkedin({ allowDangerousEmailAccountLinking: false });
 
 export const authConifg: Pick<NextAuthConfig, "providers"> = {
   providers: [credentials, github, google, linkedin],
