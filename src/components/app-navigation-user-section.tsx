@@ -31,7 +31,7 @@ export const AppNavigationUserSection = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem asChild disabled>
           <Link href="/payments">Buy credits</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />

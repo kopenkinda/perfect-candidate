@@ -81,8 +81,8 @@ export default function SignInPage({
               <FormLabel className="flex">
                 <Icon name="Lock" /> Password
                 <Link
-                  href="/forgot-password"
-                  className="ml-auto inline-block text-sm underline"
+                  href={"#"} //"/forgot-password"}
+                  className="ml-auto inline-block text-sm underline text-muted-foreground cursor-not-allowed"
                 >
                   Forgot your password?
                 </Link>
