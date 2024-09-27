@@ -7,7 +7,8 @@ export const env = createEnv({
     NEXTAUTH_URL: z.string().url(),
     NODE_ENV: z
       .enum(["development", "production", "test"])
-      .or(z.string().and(z.object({}))),
+      .or(z.string().and(z.object({})))
+      .default("development"),
     // Required for next-auth
     AUTH_GITHUB_ID: z.string(),
     AUTH_GITHUB_SECRET: z.string(),

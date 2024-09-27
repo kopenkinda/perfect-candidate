@@ -1,5 +1,6 @@
 import { compareSync } from "bcrypt-edge";
 import { AuthError, type DefaultSession, type NextAuthConfig } from "next-auth";
+import type { AdapterUser as BaseAdapterUser } from "next-auth/adapters";
 import Credentials from "next-auth/providers/credentials";
 import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
@@ -16,6 +17,12 @@ declare module "next-auth" {
   }
 
   interface User {
+    credits: number;
+  }
+}
+
+declare module "@auth/core/adapters" {
+  interface AdapterUser extends BaseAdapterUser {
     credits: number;
   }
 }

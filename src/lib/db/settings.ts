@@ -2,13 +2,20 @@
 
 import { UserSettings } from "@prisma/client";
 import { db, UnmodifiableTableProperties } from ".";
+import { userSettings } from "~/drizzle/schema";
 
 export const getUserSettings = async (userId: string) => {
-  const settings = await db.userSettings.findUnique({ where: { userId } });
+  const settings = await db.query.userSettings.findFirst({
+    where: (row, { eq }) => eq(row.userId, userId),
+  });
   if (settings) {
     return settings;
   }
-  return db.userSettings.create({ data: { userId, age: 18 } });
+  const [created] = await db
+    .insert(userSettings)
+    .values({ userId, age: 18 })
+    .returning();
+  return created;
 };
 
 export type ModifiableUserSettings = keyof Omit<
@@ -21,9 +28,15 @@ export const updateUserSettings = async <T extends ModifiableUserSettings>(
   key: T,
   value: UserSettings[T]
 ) => {
-  return db.userSettings.upsert({
-    where: { userId },
-    create: { userId, [key]: value, age: 18 },
-    update: { [key]: value },
-  });
+  return db
+    .insert(userSettings)
+    .values({
+      userId,
+      [key]: value,
+      age: 18,
+    })
+    .onConflictDoUpdate({
+      target: userSettings.userId,
+      set: { [key]: value },
+    });
 };

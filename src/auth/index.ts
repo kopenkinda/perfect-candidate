@@ -1,7 +1,8 @@
-import { PrismaAdapter } from "@auth/prisma-adapter";
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth, { NextAuthConfig } from "next-auth";
-import { getUserById } from "~/lib/db/user";
+import schema from "~/drizzle/schema";
 import { db } from "~/lib/db";
+import { getUserById } from "~/lib/db/user";
 import { authConifg } from "./config";
 
 const mergedConfig = {
@@ -9,7 +10,12 @@ const mergedConfig = {
     signIn: "/signin",
     error: "/auth-error",
   },
-  adapter: PrismaAdapter(db),
+  adapter: DrizzleAdapter(db, {
+    // @ts-expect-error adapter is not typed correctly
+    accountsTable: schema.account,
+    // @ts-expect-error adapter is not typed correctly
+    usersTable: schema.user,
+  }),
   session: { strategy: "jwt" },
   callbacks: {
     session: async ({ session, token }) => {

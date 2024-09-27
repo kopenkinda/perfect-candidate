@@ -1,26 +1,30 @@
-import { UserLanguageLevel } from "@prisma/client";
+import { and, eq, sql } from "drizzle-orm";
+import { userLanguage, type UserLanguageLevel } from "~/drizzle/schema";
 import { db } from ".";
 
 export const getUserLanguages = async (userId: string) => {
-  return await db.userLanguage.findMany({
-    where: { userId },
+  return await db.query.userLanguage.findMany({
+    where: (userLanguage, { eq }) => eq(userLanguage.userId, userId),
   });
 };
 
 export const countUserLanguages = async (userId: string) => {
-  return await db.userLanguage.count({
-    where: { userId },
-  });
+  let count = 0;
+  const [result] = await db
+    .select({ count: sql<number>`cast(count(id) as integer)` })
+    .from(userLanguage)
+    .where(eq(userLanguage.userId, userId))
+    .limit(1);
+  if (result) {
+    count = result.count;
+  }
+  return count;
 };
 
 export const createLanguageForUser = async (userId: string) => {
-  return await db.userLanguage.create({
-    data: {
-      userId,
-      language: "",
-      level: "A1",
-    },
-  });
+  return await db
+    .insert(userLanguage)
+    .values({ userId, language: "", level: "A1" });
 };
 
 export const updateLanguageForUser = async (
@@ -28,17 +32,21 @@ export const updateLanguageForUser = async (
   languageId: string,
   data: { language: string; level: UserLanguageLevel }
 ) => {
-  return await db.userLanguage.update({
-    where: { id: languageId, userId },
-    data,
-  });
+  return await db
+    .update(userLanguage)
+    .set(data)
+    .where(
+      and(eq(userLanguage.id, languageId), eq(userLanguage.userId, userId))
+    );
 };
 
 export const deleteLanguageForUser = async (
   userId: string,
   languageId: string
 ) => {
-  return await db.userLanguage.delete({
-    where: { id: languageId, userId },
-  });
+  return await db
+    .delete(userLanguage)
+    .where(
+      and(eq(userLanguage.id, languageId), eq(userLanguage.userId, userId))
+    );
 };

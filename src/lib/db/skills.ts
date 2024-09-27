@@ -1,8 +1,12 @@
-import { UserSkillType } from "@prisma/client";
 import { db } from ".";
+import { and, eq, sql } from "drizzle-orm";
+import { userSkill, type UserSkillType } from "~/drizzle/schema";
 
 export const getUserSkills = async (userId: string) => {
-  const skills = await db.userSkill.findMany({ where: { userId } });
+  const skills = await db.query.userSkill.findMany({
+    where: (row, { eq }) => eq(row.userId, userId),
+  });
+  console.log(skills);
   const groupped = skills.reduce(
     (acc, skill) => {
       acc[skill.type].push(skill);
@@ -21,7 +25,17 @@ export const countUserSkillsByType = async (
   userId: string,
   type: UserSkillType
 ) => {
-  return db.userSkill.count({ where: { userId, type } });
+  let count = 0;
+  const [row] = await db
+    .select({
+      count: sql<number>`cast(count(${userSkill.id}) as integer)`,
+    })
+    .from(userSkill)
+    .where(and(eq(userSkill.userId, userId), eq(userSkill.type, type)));
+  if (row) {
+    count = row.count;
+  }
+  return count;
 };
 
 export const addUserSkill = async (
@@ -29,11 +43,11 @@ export const addUserSkill = async (
   type: UserSkillType,
   name: string
 ) => {
-  return await db.userSkill.create({ data: { userId, type, name } });
+  return await db.insert(userSkill).values({ userId, type, name });
 };
 
 export const deleteUserSkill = async (userId: string, id: string) => {
-  return await db.userSkill.delete({ where: { userId, id } });
+  return await db.delete(userSkill).where(eq(userSkill.userId, userId));
 };
 
 export const updateUserSkill = async (
@@ -41,5 +55,8 @@ export const updateUserSkill = async (
   id: string,
   name: string
 ) => {
-  return await db.userSkill.update({ where: { userId, id }, data: { name } });
+  return await db
+    .update(userSkill)
+    .set({ name })
+    .where(and(eq(userSkill.userId, userId), eq(userSkill.id, id)));
 };

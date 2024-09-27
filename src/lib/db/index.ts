@@ -1,26 +1,18 @@
-import { Pool } from "@neondatabase/serverless";
-import { PrismaNeon } from "@prisma/adapter-neon";
-import { PrismaClient } from "@prisma/client";
-import { env } from "~/lib/env";
+import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
+import { env } from "../env";
+import schema from "../../drizzle/schema";
 
-const connectionString = env.DATABASE_URL;
-const pool = new Pool({ connectionString });
-const adapter = new PrismaNeon(pool, { schema: "public" });
+const sql = neon(env.DATABASE_URL);
+const createDrizzleClient = () => drizzle(sql, { schema });
 
-const createPrismaClient = () =>
-  new PrismaClient({
-    log:
-      env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
-    adapter: adapter,
-  });
-
-const globalForPrisma = globalThis as unknown as {
-  prisma: ReturnType<typeof createPrismaClient> | undefined;
+const globalForDrizzle = globalThis as unknown as {
+  drizzle: ReturnType<typeof createDrizzleClient> | undefined;
 };
 
-export const db = globalForPrisma.prisma ?? createPrismaClient();
+export const db = globalForDrizzle.drizzle ?? createDrizzleClient();
 
-if (env.NODE_ENV !== "production") globalForPrisma.prisma = db;
+if (env.NODE_ENV !== "production") globalForDrizzle.drizzle = db;
 
 export type UnmodifiableTableProperties =
   | "userId"
