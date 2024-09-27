@@ -1,6 +1,6 @@
 "use server";
 
-import { userPrivacy } from "~/drizzle/schema";
+import { type UserPrivacy, userPrivacy } from "~/drizzle/schema";
 import { db, UnmodifiableTableProperties } from ".";
 import { getUserById } from "./user";
 import { eq } from "drizzle-orm";
@@ -25,10 +25,7 @@ export const getUserPrivacySettings = async (userId: string) => {
   return created;
 };
 
-export type PrivacyKey = keyof Omit<
-  typeof userPrivacy,
-  UnmodifiableTableProperties
->;
+export type PrivacyKey = keyof Omit<UserPrivacy, UnmodifiableTableProperties>;
 
 export const updateUserPrivacy = async (
   userId: string,

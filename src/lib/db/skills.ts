@@ -6,7 +6,6 @@ export const getUserSkills = async (userId: string) => {
   const skills = await db.query.userSkill.findMany({
     where: (row, { eq }) => eq(row.userId, userId),
   });
-  console.log(skills);
   const groupped = skills.reduce(
     (acc, skill) => {
       acc[skill.type].push(skill);
@@ -43,11 +42,19 @@ export const addUserSkill = async (
   type: UserSkillType,
   name: string
 ) => {
-  return await db.insert(userSkill).values({ userId, type, name });
+  const [inserted] = await db
+    .insert(userSkill)
+    .values({ userId, type, name })
+    .returning();
+  return inserted;
 };
 
 export const deleteUserSkill = async (userId: string, id: string) => {
-  return await db.delete(userSkill).where(eq(userSkill.userId, userId));
+  const [deleted] = await db
+    .delete(userSkill)
+    .where(and(eq(userSkill.userId, userId), eq(userSkill.id, id)))
+    .returning();
+  return deleted;
 };
 
 export const updateUserSkill = async (
@@ -55,8 +62,10 @@ export const updateUserSkill = async (
   id: string,
   name: string
 ) => {
-  return await db
+  const [updated] = await db
     .update(userSkill)
     .set({ name })
-    .where(and(eq(userSkill.userId, userId), eq(userSkill.id, id)));
+    .where(and(eq(userSkill.userId, userId), eq(userSkill.id, id)))
+    .returning();
+  return updated;
 };

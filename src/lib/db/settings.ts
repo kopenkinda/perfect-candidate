@@ -1,8 +1,8 @@
 "use server";
 
-import { UserSettings } from "@prisma/client";
+import { eq } from "drizzle-orm";
 import { db, UnmodifiableTableProperties } from ".";
-import { userSettings } from "~/drizzle/schema";
+import { userSettings, type UserSettings } from "~/drizzle/schema";
 
 export const getUserSettings = async (userId: string) => {
   const settings = await db.query.userSettings.findFirst({
@@ -28,15 +28,13 @@ export const updateUserSettings = async <T extends ModifiableUserSettings>(
   key: T,
   value: UserSettings[T]
 ) => {
-  return db
-    .insert(userSettings)
-    .values({
-      userId,
-      [key]: value,
-      age: 18,
-    })
-    .onConflictDoUpdate({
-      target: userSettings.userId,
-      set: { [key]: value },
-    });
+  const exists = await getUserSettings(userId);
+  if (!exists) {
+    await db.insert(userSettings).values({ userId, age: 18, [key]: value });
+  } else {
+    await db
+      .update(userSettings)
+      .set({ userId, age: 18, [key]: value })
+      .where(eq(userSettings.userId, userId));
+  }
 };

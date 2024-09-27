@@ -22,9 +22,11 @@ export const countUserLanguages = async (userId: string) => {
 };
 
 export const createLanguageForUser = async (userId: string) => {
-  return await db
+  const [created] = await db
     .insert(userLanguage)
-    .values({ userId, language: "", level: "A1" });
+    .values({ userId, language: "", level: "A1" })
+    .returning();
+  return created;
 };
 
 export const updateLanguageForUser = async (
@@ -32,21 +34,25 @@ export const updateLanguageForUser = async (
   languageId: string,
   data: { language: string; level: UserLanguageLevel }
 ) => {
-  return await db
+  const [updated] = await db
     .update(userLanguage)
     .set(data)
     .where(
       and(eq(userLanguage.id, languageId), eq(userLanguage.userId, userId))
-    );
+    )
+    .returning();
+  return updated;
 };
 
 export const deleteLanguageForUser = async (
   userId: string,
   languageId: string
 ) => {
-  return await db
+  const [deleted] = await db
     .delete(userLanguage)
     .where(
       and(eq(userLanguage.id, languageId), eq(userLanguage.userId, userId))
-    );
+    )
+    .returning();
+  return deleted;
 };

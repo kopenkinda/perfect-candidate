@@ -36,12 +36,14 @@ export const updateUserInformation = async <
   key: T,
   value: User[T]
 ) => {
-  return await db
+  const [updated] = await db
     .update(user)
     .set({
       [key]: value,
     })
-    .where(eq(user.id, id));
+    .where(eq(user.id, id))
+    .returning();
+  return updated;
 };
 
 export const getUserProfileCompletion = async (id: string): Promise<number> => {

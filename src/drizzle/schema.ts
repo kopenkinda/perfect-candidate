@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { InferSelectModel, sql } from "drizzle-orm";
 import {
   boolean,
   foreignKey,
@@ -55,6 +55,7 @@ export const userSettings = pgTable(
     };
   }
 );
+export type UserSettings = InferSelectModel<typeof userSettings>;
 
 export const userPrivacy = pgTable(
   "UserPrivacy",
@@ -86,6 +87,7 @@ export const userPrivacy = pgTable(
     };
   }
 );
+export type UserPrivacy = InferSelectModel<typeof userPrivacy>;
 
 export const userExperience = pgTable(
   "UserExperience",
@@ -121,6 +123,7 @@ export const userExperience = pgTable(
     };
   }
 );
+export type UserExperience = InferSelectModel<typeof userExperience>;
 
 export const userLanguage = pgTable(
   "UserLanguage",
@@ -149,6 +152,7 @@ export const userLanguage = pgTable(
     };
   }
 );
+export type UserLanguage = InferSelectModel<typeof userLanguage>;
 
 export const userSkill = pgTable(
   "UserSkill",
@@ -177,6 +181,7 @@ export const userSkill = pgTable(
     };
   }
 );
+export type UserSkill = InferSelectModel<typeof userSkill>;
 
 export const user = pgTable(
   "User",
@@ -204,6 +209,7 @@ export const user = pgTable(
     };
   }
 );
+export type User = InferSelectModel<typeof user>;
 
 export const account = pgTable(
   "Account",
@@ -247,6 +253,7 @@ export const account = pgTable(
     };
   }
 );
+export type Account = InferSelectModel<typeof account>;
 
 export const verificationToken = pgTable(
   "VerificationToken",
@@ -267,6 +274,7 @@ export const verificationToken = pgTable(
     };
   }
 );
+export type VerificationToken = InferSelectModel<typeof verificationToken>;
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
