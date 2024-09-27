@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { Icon } from "~/components/ui/app-icon";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { zodError } from "~/lib/utils";
 import { UserSkillSchema } from "./schemas";
 import {
   createSkillAction,
@@ -69,7 +68,6 @@ const SkillRow = (props: {
   delete: (languageId: string) => void;
 }) => {
   const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
   const [name, setName] = useState(props.skill.name);
   const debouncedName = useDebounce(name, 300);
 
@@ -77,13 +75,12 @@ const SkillRow = (props: {
     const handler = async () => {
       const isValid = UserSkillSchema.safeParse({ name: debouncedName });
       if (!isValid.success) {
-        return setError(zodError(isValid.error));
+        return;
       }
       if (debouncedName === props.skill.name) {
-        return setError(null);
+        return;
       }
       await updateSkillAction(props.skill.id, debouncedName);
-      setError(null);
       router.refresh();
     };
 
