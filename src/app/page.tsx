@@ -12,6 +12,8 @@ import { ClientHomepageProtectedTest, ClientHomepageTest } from "./client-test";
 export default async function Home() {
   const data = await api.profile.hello({ text: "me" });
   const session = await user();
+  await api.profile.getSecretMessage.prefetch();
+  await api.profile.hello.prefetch({ text: "me" });
   const secret =
     session !== undefined ? await api.profile.getSecretMessage() : null;
   return (
