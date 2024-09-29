@@ -5,6 +5,7 @@ import { auth } from "~/auth";
 import { AppNavigation } from "~/components/app-navigation";
 import "./globals.css";
 import { ThemeProvider } from "./theme-provider";
+import { TRPCReactProvider } from "~/lib/trpc/react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -41,10 +42,12 @@ export default async function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <ThemeProvider defaultTheme="system" enableSystem attribute="class">
-            <AppNavigation />
-            <main>{children}</main>
-          </ThemeProvider>
+          <TRPCReactProvider>
+            <ThemeProvider defaultTheme="system" enableSystem attribute="class">
+              <AppNavigation />
+              <main>{children}</main>
+            </ThemeProvider>
+          </TRPCReactProvider>
         </body>
       </html>
     </SessionProvider>
